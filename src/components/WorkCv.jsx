@@ -1,5 +1,6 @@
 import { useState, useRef } from "react";
 import { useReactToPrint } from "react-to-print";
+import "./WorkCv.css";
 
 function WorkCvForm() {
   const [isEditing, setIsEditing] = useState(true);
@@ -77,7 +78,7 @@ function WorkCvForm() {
             {["name", "phone", "email", "location"].map((field) => {
               const placeholders = {
                 name: 'Raphael Edafe',
-                phone: '+234 903 448 3597',
+                phone: '+2349034483597',
                 email: 'raphaeledafe@yahoo.com',
                 location: 'Abuja, Nigeria',
               };
@@ -272,7 +273,7 @@ function WorkCvForm() {
     <div>
       <div className="cv-preview" ref={cvRef}>
         <h1>{cvData.personalInfo.name}</h1>
-        <p>
+        <p className="details">
           {cvData.personalInfo.phone} || {cvData.personalInfo.email} ||{" "}
           {cvData.personalInfo.location}
         </p>
@@ -282,6 +283,7 @@ function WorkCvForm() {
           hasContent(cvData[section], Object.keys(cvData[section][0]).filter(k => k !== "id")) && (
             <div key={section}>
               <h2>{section === "workExperience" ? "WORK EXPERIENCE" : "EDUCATION"}</h2>
+              <hr />
               {cvData[section].map((item) => (
                 <div key={item.id}>
                   {section === "workExperience" ? (
@@ -310,6 +312,7 @@ function WorkCvForm() {
           hasContent(cvData[section], Object.keys(cvData[section][0]).filter(k => k !== "id")) && (
             <div key={section}>
               <h2>{section.toUpperCase()}</h2>
+              <hr />
               {cvData[section].map((item) =>
                 Object.entries(item).map(([key, value]) =>
                   key !== "id" && value && (key === "from" || key === "to" ? <p key={key}>{formatMonthYear(value)}</p> : <p key={key}>{value}</p>)
@@ -319,9 +322,10 @@ function WorkCvForm() {
           )
         )}
       </div>
-
-      <button onClick={() => setIsEditing(true)}>Edit</button>
-      <button onClick={handlePrint}>Download PDF</button>
+        <div className="preview-action">
+          <button className="btn-edit" onClick={() => setIsEditing(true)}>Edit</button>
+          <button className="btn-download" onClick={handlePrint}>Download PDF</button>
+        </div>
     </div>
   );
 }
