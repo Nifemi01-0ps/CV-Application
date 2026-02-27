@@ -408,7 +408,7 @@ function ScholarshipCvForm() {
               .filter(Boolean)
               .map((item, i, arr) => (
                 <span key={i}>
-                  {item}{i < arr.length - 1 && <span className="cv-divider"> · </span>}
+                  {item}{i < arr.length - 1 && <span className="cv-divider"> || </span>}
                 </span>
               ))}
           </div>
@@ -579,10 +579,7 @@ function ScholarshipCvForm() {
             </ul>
           </div>
         )}
-      <div className="preview-toolbar">
-        <button className="btn-edit" onClick={() => setIsEditing(true)}>← Edit</button>
-        <button className="btn-download" onClick={handlePrint}>Download PDF</button>
-      </div>
+      
       </div>
     </div>
   );
