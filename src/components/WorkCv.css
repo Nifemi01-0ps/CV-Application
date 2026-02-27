@@ -216,6 +216,30 @@ h1, h2, h3, h4 {
    cursor: pointer;
    transition: transform 0.2s ease, box-shadow 0.2s ease;
  }
+ .optional-preview-entry {
+  margin-bottom: 10px;
+}
+
+.optional-preview-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+.optional-preview-title {
+  font-size: 1rem;
+}
+
+.optional-preview-date {
+  font-size: 0.9rem;
+  white-space: nowrap;
+  margin-left: 16px;
+}
+
+.optional-preview-desc {
+  margin: 4px 0 0 0;
+  font-size: 0.9rem;
+}
  /* Responsive Design */
  @media (max-width: 768px) {
    .cv-form-wrapper, .cv-preview {
@@ -245,4 +269,23 @@ h1, h2, h3, h4 {
  }
  @media print {
   .preview-toolbar { display: none; }
+}
+.work-preview-entry {
+  margin-bottom: 10px;
+}
+
+.work-preview-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+.work-preview-title {
+  font-size: 1rem;
+}
+
+.work-preview-date {
+  font-size: 0.9rem;
+  white-space: nowrap;
+  margin-left: 16px;
 }
