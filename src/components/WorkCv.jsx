@@ -480,26 +480,21 @@ function WorkCvForm() {
           <div>
             <h2>WORK EXPERIENCE</h2>
             <hr />
-            {cvData.workExperience.map((item) => (
-              <div key={item.id} className="work-preview-entry">
-                <p>
+          {cvData.workExperience.map((item) =>(
+            <div key={item.id} className="work-preview-entry">
+              <div className="work-preview-header">
+                <span className="work-preview-title">
                   <strong>{item.role}</strong>
-                  {item.company && ` — ${item.company}`}
-                  {(item.from || item.to) && (
-                    <span> ({formatMonthYear(item.from)} → {formatMonthYear(item.to)})</span>
-                  )}
-                </p>
-                {item.points.some((p) => p.trim() !== "") && (
-                  <ul className="work-points-list">
-                    {item.points
-                      .filter((p) => p.trim() !== "")
-                      .map((p, pi) => (
-                        <li key={pi}>{p}</li>
-                      ))}
-                  </ul>
+                  {item.company && ` ${item.company}`}
+                </span>
+                {(item.from || item.to) && (
+                  <span className="work-preview-date">
+                    {formatMonthYear(item.from)}{item.from && item.to ? '  ' : ''}- {formatMonthYear(item.to)}
+                  </span>
                 )}
               </div>
-            ))}
+            </div>
+          ))}
           </div>
         )}
 
