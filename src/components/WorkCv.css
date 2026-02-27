@@ -1,4 +1,4 @@
-body {
+ body {
     margin: 0;
     font-family: var(--font-body);
     background-color: var(--color-bg);
@@ -55,6 +55,9 @@ h1, h2, h3, h4 {
     box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.2);
     transform: scale(1.02);
  }
+ /* .cv-form label {
+   border: 2px solid red;
+ } */
  textarea {
     resize: vertical;
     min-height: 80px;
@@ -133,13 +136,42 @@ h1, h2, h3, h4 {
     font-size: 1rem;
     text-align: center;
  }
- .work-points-list {
+ .cv-contact {
+   margin: 0.25rem 0;
+   font-size: 1rem;
+   text-align: center;
+ }
+ .work-points-list, .cv-points {
   padding-left: 1.2rem;
   margin-top: 0.5rem;
   
 }
+.optional-preview-entry {
+  margin-bottom: 10px;
+}
 
-.work-points-list li {
+.optional-preview-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+.optional-preview-title {
+  font-size: 1rem;
+}
+
+.optional-preview-date {
+  font-size: 0.9rem;
+  white-space: nowrap;
+  margin-left: 16px;
+}
+
+.optional-preview-desc {
+  margin: 4px 0 0 0;
+  font-size: 0.9rem;
+}
+
+.work-points-list ul {
   margin-bottom: 0.3rem;
   color: var(--color-primary);
 }
@@ -154,8 +186,12 @@ h1, h2, h3, h4 {
   color: var(--color-primary);
 }
 
-.skills-list li {
+.skills-list li  {
   margin-bottom: 0.3rem;
+}
+.cv-skills-list {
+   padding-left: 1.2rem;
+   margin-bottom: 0.3rem;
 }
  .cv-preview div {
    border-radius: 8px;
@@ -163,7 +199,7 @@ h1, h2, h3, h4 {
    transform: translateY(0);
    transition: transform 0.3s ease, opacity 0.3s ease;
  }
- .preview-action {
+ .preview-action, .preview-toolbar {
    display: flex;
    justify-content: flex-end;
    gap: 1rem;
