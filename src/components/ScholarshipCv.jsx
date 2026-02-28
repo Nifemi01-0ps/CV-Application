@@ -157,53 +157,161 @@ function ScholarshipCvForm() {
             </div>
           </section>
 
-          {/* Education */}
-          <section>
-            <h2>Education</h2>
-            {cvData.education.map((edu, i) => (
-              <div key={edu.id} className="entry-card">
-                <div className="entry-card-header">
-                  <span>Entry {i + 1}</span>
-                  {cvData.education.length > 1 && (
-                    <button type="button" className="btn-remove-entry" onClick={() => removeItem("education", i)}>Remove</button>
-                  )}
-                </div>
-                <div className="field-group">
-                  <label htmlFor={`edu-institution-${i}`}>Institution</label>
-                  <input id={`edu-institution-${i}`} name={`education_${i}_institution`} placeholder="University of Ilorin" value={edu.institution} onChange={(e) => updateSection("education", i, "institution", e.target.value)} />
-                </div>
-                <div className="field-group">
-                  <label htmlFor={`edu-location-${i}`}>Location</label>
-                  <input id={`edu-location-${i}`} name={`education_${i}_location`} placeholder="Nigeria" value={edu.location} onChange={(e) => updateSection("education", i, "location", e.target.value)} />
-                </div>
-                <div className="field-group">
-                  <label htmlFor={`edu-degree-${i}`}>Degree / Qualification</label>
-                  <input id={`edu-degree-${i}`} name={`education_${i}_degree`} placeholder="Bachelor of Agriculture (B.Agric) in Agricultural Science" value={edu.degree} onChange={(e) => updateSection("education", i, "degree", e.target.value)} />
-                </div>
-                <div className="field-group">
-                  <label htmlFor={`edu-from-${i}`}>Start Date</label>
-                  <input id={`edu-from-${i}`} name={`education_${i}_from`} type="month" value={edu.from} onChange={(e) => updateSection("education", i, "from", e.target.value)} />
-                </div>
-                <div className="field-group">
-                  <label htmlFor={`edu-to-${i}`}>End Date</label>
-                  <input id={`edu-to-${i}`} name={`education_${i}_to`} type="month" value={edu.to} onChange={(e) => updateSection("education", i, "to", e.target.value)} />
-                </div>
-                <div className="field-group">
-                  <label htmlFor={`edu-grade-${i}`}>Final Grade</label>
-                  <input id={`edu-grade-${i}`} name={`education_${i}_grade`} placeholder="Second Class Upper" value={edu.grade} onChange={(e) => updateSection("education", i, "grade", e.target.value)} />
-                </div>
-                <div className="field-group">
-                  <label htmlFor={`edu-gpa-${i}`}>GPA</label>
-                  <input id={`edu-gpa-${i}`} name={`education_${i}_gpa`} placeholder="4.00 / 5.00" value={edu.gpa} onChange={(e) => updateSection("education", i, "gpa", e.target.value)} />
-                </div>
-                <div className="field-group">
-                  <label htmlFor={`edu-thesis-${i}`}>Thesis Title (Optional)</label>
-                  <input id={`edu-thesis-${i}`} name={`education_${i}_thesis`} placeholder="Effect of Peri-urban Poultry Production..." value={edu.thesis} onChange={(e) => updateSection("education", i, "thesis", e.target.value)} />
-                </div>
-              </div>
-            ))}
-            <button type="button" className="btn-add-entry" onClick={() => addItem("education", { id: Date.now(), institution: "", location: "", degree: "", from: "", to: "", grade: "", gpa: "", thesis: "" })}>+ Add Education</button>
-          </section>
+                  {/* Education */}
+<section>
+    <h2>Education</h2>
+
+  {cvData.education.map((edu, i) => (
+    <div key={edu.id} className="entry-card">
+      <div className="entry-card-header">
+        <span>Entry {i + 1}</span>
+
+        {cvData.education.length > 1 && (
+          <button
+            type="button"
+            className="btn-remove-entry"
+            onClick={() => removeItem("education", i)}
+          >
+            Remove
+          </button>
+        )}
+      </div>
+
+      {/* Institution */}
+      <div className="field-group">
+        <label htmlFor={`edu-institution-${i}`}>Institution</label>
+        <input
+          id={`edu-institution-${i}`}
+          value={edu.institution}
+          placeholder="University of Ilorin"
+          onChange={(e) =>
+            updateSection("education", i, "institution", e.target.value)
+          }
+        />
+      </div>
+
+      {/* Location */}
+      <div className="field-group">
+        <label htmlFor={`edu-location-${i}`}>Location</label>
+        <input
+          id={`edu-location-${i}`}
+          value={edu.location}
+          placeholder="Nigeria"
+          onChange={(e) =>
+            updateSection("education", i, "location", e.target.value)
+          }
+        />
+      </div>
+
+      {/* Degree */}
+      <div className="field-group">
+        <label htmlFor={`edu-degree-${i}`}>Degree / Qualification</label>
+        <input
+          id={`edu-degree-${i}`}
+          value={edu.degree}
+          placeholder="Bachelor of Agriculture (B.Agric)"
+          onChange={(e) =>
+            updateSection("education", i, "degree", e.target.value)
+          }
+        />
+      </div>
+
+      {/* Start Date */}
+      <div className="field-group">
+        <label htmlFor={`edu-from-${i}`}>Start Date</label>
+        <input
+          id={`edu-from-${i}`}
+          type="month"
+          value={edu.from}
+          onChange={(e) =>
+            updateSection("education", i, "from", e.target.value)
+          }
+        />
+      </div>
+
+      {/* End Date */}
+      <div className="field-group">
+        <label htmlFor={`edu-to-${i}`}>End Date</label>
+        <input
+          id={`edu-to-${i}`}
+          type="month"
+          value={edu.to}
+          onChange={(e) =>
+            updateSection("education", i, "to", e.target.value)
+          }
+        />
+      </div>
+
+      {/* Final Grade */}
+      <div className="field-group">
+        <label htmlFor={`edu-grade-${i}`}>Final Grade</label>
+        <input
+          id={`edu-grade-${i}`}
+          value={edu.grade}
+          placeholder="Second Class Upper"
+          onChange={(e) =>
+            updateSection("education", i, "grade", e.target.value)
+          }
+        />
+      </div>
+
+      {/* GPA Slider */}
+      <div className="field-group">
+        <label htmlFor={`edu-gpa-${i}`}>
+          GPA: {Number(edu.gpa).toFixed(1)} / 5.0
+        </label>
+
+        <input
+          type="range"
+          min="1"
+          max="5"
+          step="0.1"
+          id={`edu-gpa-${i}`}
+          value={edu.gpa}
+          onChange={(e) =>
+            updateSection("education", i, "gpa", Number(e.target.value))
+          }
+        />
+      </div>
+
+      {/* Thesis */}
+      <div className="field-group">
+        <label htmlFor={`edu-thesis-${i}`}>
+          Thesis Title (Optional)
+        </label>
+        <input
+          id={`edu-thesis-${i}`}
+          value={edu.thesis}
+          placeholder="Effect of Peri-urban Poultry Production..."
+          onChange={(e) =>
+            updateSection("education", i, "thesis", e.target.value)
+          }
+        />
+      </div>
+    </div>
+  ))}
+
+  {/* Add Education Button */}
+  <button
+    type="button"
+    className="btn-add-entry"
+    onClick={() =>
+      addItem("education", {
+        id: Date.now(),
+        institution: "",
+        location: "",
+        degree: "",
+        from: "",
+        to: "",
+        grade: "",
+        gpa: 1, // ✅ default slider value
+        thesis: "",
+      })
+    }
+  >
+    + Add Education
+  </button>
+</section>
 
           {/* Research Experience */}
           <section>
