@@ -34,6 +34,13 @@ function WorkCvForm() {
     }));
   };
 
+  const removeItem = (section, index) => {
+    setCvData((prev) => ({
+      ...prev,
+      [section]: prev[section].filter((_, i) => i !== index),
+    }));
+  };
+
   // Work Experience point helpers
   const updateWorkPoint = (workIndex, pointIndex, value) => {
     setCvData((prev) => {
@@ -60,7 +67,10 @@ function WorkCvForm() {
     setCvData((prev) => {
       const updated = [...prev.workExperience];
       const points = updated[workIndex].points.filter((_, i) => i !== pointIndex);
-      updated[workIndex] = { ...updated[workIndex], points: points.length ? points : [""] };
+      updated[workIndex] = {
+        ...updated[workIndex],
+        points: points.length ? points : [""],
+      };
       return { ...prev, workExperience: updated };
     });
   };
@@ -91,7 +101,10 @@ function WorkCvForm() {
     setCvData((prev) => {
       const updated = [...prev.skills];
       const points = updated[skillIndex].points.filter((_, i) => i !== pointIndex);
-      updated[skillIndex] = { ...updated[skillIndex], points: points.length ? points : [""] };
+      updated[skillIndex] = {
+        ...updated[skillIndex],
+        points: points.length ? points : [""],
+      };
       return { ...prev, skills: updated };
     });
   };
@@ -108,7 +121,9 @@ function WorkCvForm() {
   const formatMonthYear = (value) => {
     if (!value) return "";
     const [year, month] = value.split("-");
-    const monthName = new Date(year, month - 1).toLocaleString("default", { month: "short" });
+    const monthName = new Date(year, month - 1).toLocaleString("default", {
+      month: "short",
+    });
     return `${monthName} ${year}`;
   };
 
@@ -125,10 +140,29 @@ function WorkCvForm() {
   });
 
   const sectionFieldLabels = {
-    certifications: { title: "Certification Title", issuer: "Issuing Organization", from: "Start Date", to: "End Date" },
-    volunteering: { role: "Role", description: "Description", from: "Start Date", to: "End Date" },
-    awards: { title: "Award Title", from: "Date Awarded (From)", to: "Date Awarded (To)" },
-    academicSupport: { role: "Role", description: "Description", from: "Start Date", to: "End Date" },
+    certifications: {
+      title: "Certification Title",
+      issuer: "Issuing Organization",
+      from: "Start Date",
+      to: "End Date",
+    },
+    volunteering: {
+      role: "Role",
+      description: "Description",
+      from: "Start Date",
+      to: "End Date",
+    },
+    awards: {
+      title: "Award Title",
+      from: "Date Awarded (From)",
+      to: "Date Awarded (To)",
+    },
+    academicSupport: {
+      role: "Role",
+      description: "Description",
+      from: "Start Date",
+      to: "End Date",
+    },
   };
 
   if (isEditing) {
@@ -143,12 +177,12 @@ function WorkCvForm() {
           {/* Personal Information */}
           <section>
             <h2>Personal Information</h2>
-            {['name', 'phone', 'email', 'location'].map((field) => {
+            {["name", "phone", "email", "location"].map((field) => {
               const placeholders = {
-                name: 'Raphael Edafe',
-                phone: '+2349034483597',
-                email: 'raphaeledafe@yahoo.com',
-                location: 'Abuja, Nigeria',
+                name: "Raphael Edafe",
+                phone: "+2349034483597",
+                email: "raphaeledafe@yahoo.com",
+                location: "Abuja, Nigeria",
               };
               return (
                 <div key={field}>
@@ -158,12 +192,15 @@ function WorkCvForm() {
                   <input
                     id={`personal-${field}`}
                     name={`personalInfo_${field}`}
-                    type={field === 'email' ? 'email' : 'text'}
+                    type={field === "email" ? "email" : "text"}
                     value={cvData.personalInfo[field]}
                     onChange={(e) =>
                       setCvData({
                         ...cvData,
-                        personalInfo: { ...cvData.personalInfo, [field]: e.target.value },
+                        personalInfo: {
+                          ...cvData.personalInfo,
+                          [field]: e.target.value,
+                        },
                       })
                     }
                     placeholder={placeholders[field]}
@@ -177,67 +214,141 @@ function WorkCvForm() {
           <section>
             <h2>Education</h2>
             {cvData.education.map((edu, i) => (
-              <div key={edu.id}>
-                <div>
-                  <label htmlFor={`edu-degree-${i}`}>Degree / Qualification</label>
-                  <input
-                    id={`edu-degree-${i}`}
-                    name={`education_${i}_degree`}
-                    placeholder="Bachelor of Science in Computer Science"
-                    value={edu.degree}
-                    onChange={(e) => updateSection('education', i, 'degree', e.target.value)}
-                  />
+              <div key={edu.id} className="entry-card">
+                <div className="entry-card-header">
+                  <span>Entry {i + 1}</span>
+                  {cvData.education.length > 1 && (
+                    <button
+                      type="button"
+                      className="btn-remove-entry"
+                      onClick={() => removeItem("education", i)}
+                    >
+                      Remove
+                    </button>
+                  )}
                 </div>
-                <div>
+
+                <div className="field-group">
                   <label htmlFor={`edu-institution-${i}`}>Institution</label>
                   <input
                     id={`edu-institution-${i}`}
-                    name={`education_${i}_institution`}
-                    placeholder="University of Lagos"
                     value={edu.institution}
-                    onChange={(e) => updateSection('education', i, 'institution', e.target.value)}
+                    placeholder="University of Ilorin"
+                    onChange={(e) =>
+                      updateSection("education", i, "institution", e.target.value)
+                    }
                   />
                 </div>
-                <div>
+
+                <div className="field-group">
+                  <label htmlFor={`edu-location-${i}`}>Location</label>
+                  <input
+                    id={`edu-location-${i}`}
+                    value={edu.location}
+                    placeholder="Nigeria"
+                    onChange={(e) =>
+                      updateSection("education", i, "location", e.target.value)
+                    }
+                  />
+                </div>
+
+                <div className="field-group">
+                  <label htmlFor={`edu-degree-${i}`}>Degree / Qualification</label>
+                  <input
+                    id={`edu-degree-${i}`}
+                    value={edu.degree}
+                    placeholder="Bachelor of Agriculture (B.Agric)"
+                    onChange={(e) =>
+                      updateSection("education", i, "degree", e.target.value)
+                    }
+                  />
+                </div>
+
+                <div className="field-group">
                   <label htmlFor={`edu-from-${i}`}>Start Date</label>
                   <input
                     id={`edu-from-${i}`}
-                    name={`education_${i}_from`}
                     type="month"
                     value={edu.from}
-                    onChange={(e) => updateSection('education', i, 'from', e.target.value)}
+                    onChange={(e) =>
+                      updateSection("education", i, "from", e.target.value)
+                    }
                   />
                 </div>
-                <div>
+
+                <div className="field-group">
                   <label htmlFor={`edu-to-${i}`}>End Date</label>
                   <input
                     id={`edu-to-${i}`}
-                    name={`education_${i}_to`}
                     type="month"
                     value={edu.to}
-                    onChange={(e) => updateSection('education', i, 'to', e.target.value)}
+                    onChange={(e) =>
+                      updateSection("education", i, "to", e.target.value)
+                    }
                   />
                 </div>
-                <div>
-                  <label htmlFor={`edu-grade-${i}`}>Grade / Class of Degree</label>
+
+                <div className="field-group">
+                  <label htmlFor={`edu-grade-${i}`}>Final Grade</label>
                   <input
                     id={`edu-grade-${i}`}
-                    name={`education_${i}_grade`}
-                    type="text"
-                    placeholder="First Class, 4.52"
                     value={edu.grade}
-                    onChange={(e) => updateSection('education', i, 'grade', e.target.value)}
+                    placeholder="Second Class Upper"
+                    onChange={(e) =>
+                      updateSection("education", i, "grade", e.target.value)
+                    }
+                  />
+                </div>
+
+                <div className="field-group">
+                  <label htmlFor={`edu-gpa-${i}`}>
+                    GPA: {Number(edu.gpa).toFixed(1)} / 5.0
+                  </label>
+                  <input
+                    type="range"
+                    min="1"
+                    max="5"
+                    step="0.1"
+                    id={`edu-gpa-${i}`}
+                    value={edu.gpa}
+                    onChange={(e) =>
+                      updateSection("education", i, "gpa", Number(e.target.value))
+                    }
+                  />
+                </div>
+
+                <div className="field-group">
+                  <label htmlFor={`edu-thesis-${i}`}>Thesis Title (Optional)</label>
+                  <input
+                    id={`edu-thesis-${i}`}
+                    value={edu.thesis}
+                    placeholder="Effect of Peri-urban Poultry Production..."
+                    onChange={(e) =>
+                      updateSection("education", i, "thesis", e.target.value)
+                    }
                   />
                 </div>
               </div>
             ))}
+
             <button
               type="button"
+              className="btn-add-entry"
               onClick={() =>
-                addItem('education', { id: Date.now(), degree: '', institution: '', from: '', to: '', grade: '' })
+                addItem("education", {
+                  id: Date.now(),
+                  institution: "",
+                  location: "",
+                  degree: "",
+                  from: "",
+                  to: "",
+                  grade: "",
+                  gpa: 1,
+                  thesis: "",
+                })
               }
             >
-              Add Education
+              + Add Education
             </button>
           </section>
 
@@ -253,9 +364,12 @@ function WorkCvForm() {
                     name={`workExperience_${i}_role`}
                     placeholder="Software Engineer"
                     value={work.role}
-                    onChange={(e) => updateSection('workExperience', i, 'role', e.target.value)}
+                    onChange={(e) =>
+                      updateSection("workExperience", i, "role", e.target.value)
+                    }
                   />
                 </div>
+
                 <div>
                   <label htmlFor={`work-company-${i}`}>Company / Organization</label>
                   <input
@@ -263,9 +377,12 @@ function WorkCvForm() {
                     name={`workExperience_${i}_company`}
                     placeholder="Acme Corp"
                     value={work.company}
-                    onChange={(e) => updateSection('workExperience', i, 'company', e.target.value)}
+                    onChange={(e) =>
+                      updateSection("workExperience", i, "company", e.target.value)
+                    }
                   />
                 </div>
+
                 <div>
                   <label htmlFor={`work-from-${i}`}>Start Date</label>
                   <input
@@ -273,9 +390,12 @@ function WorkCvForm() {
                     name={`workExperience_${i}_from`}
                     type="month"
                     value={work.from}
-                    onChange={(e) => updateSection('workExperience', i, 'from', e.target.value)}
+                    onChange={(e) =>
+                      updateSection("workExperience", i, "from", e.target.value)
+                    }
                   />
                 </div>
+
                 <div>
                   <label htmlFor={`work-to-${i}`}>End Date</label>
                   <input
@@ -283,11 +403,12 @@ function WorkCvForm() {
                     name={`workExperience_${i}_to`}
                     type="month"
                     value={work.to}
-                    onChange={(e) => updateSection('workExperience', i, 'to', e.target.value)}
+                    onChange={(e) =>
+                      updateSection("workExperience", i, "to", e.target.value)
+                    }
                   />
                 </div>
 
-                {/* Responsibilities / Achievements */}
                 <div className="work-points">
                   <label>Responsibilities / Achievements</label>
                   {work.points.map((point, pi) => (
@@ -322,17 +443,25 @@ function WorkCvForm() {
                 </div>
               </div>
             ))}
+
             <button
               type="button"
               onClick={() =>
-                addItem('workExperience', { id: Date.now(), role: '', company: '', from: '', to: '', points: [''] })
+                addItem("workExperience", {
+                  id: Date.now(),
+                  role: "",
+                  company: "",
+                  from: "",
+                  to: "",
+                  points: [""],
+                })
               }
             >
               Add Work Experience
             </button>
           </section>
 
-          {/* Skills — separate from generic optional sections to support bullet points */}
+          {/* Skills */}
           <section>
             <h2>Skills (Optional)</h2>
             {cvData.skills.map((skill, i) => (
@@ -344,9 +473,12 @@ function WorkCvForm() {
                     name={`skills_${i}_name`}
                     placeholder="e.g. Programming Languages"
                     value={skill.name}
-                    onChange={(e) => updateSection('skills', i, 'name', e.target.value)}
+                    onChange={(e) =>
+                      updateSection("skills", i, "name", e.target.value)
+                    }
                   />
                 </div>
+
                 <div className="skill-points">
                   {skill.points.map((point, pi) => (
                     <div key={pi} className="skill-point-row">
@@ -354,7 +486,7 @@ function WorkCvForm() {
                         id={`skill-point-${i}-${pi}`}
                         name={`skills_${i}_point_${pi}`}
                         type="text"
-                        placeholder={`e.g. Python, JavaScript, C++`}
+                        placeholder="e.g. Python, JavaScript, C++"
                         value={point}
                         onChange={(e) => updateSkillPoint(i, pi, e.target.value)}
                       />
@@ -380,10 +512,11 @@ function WorkCvForm() {
                 </div>
               </div>
             ))}
+
             <button
               type="button"
               onClick={() =>
-                addItem('skills', { id: Date.now(), name: '', points: [''] })
+                addItem("skills", { id: Date.now(), name: "", points: [""] })
               }
             >
               Add Skill
@@ -392,10 +525,26 @@ function WorkCvForm() {
 
           {/* Remaining Optional Sections */}
           {[
-            { key: 'certifications', title: 'Certifications', fields: ['title', 'issuer', 'from', 'to'] },
-            { key: 'volunteering', title: 'Volunteering', fields: ['role', 'description', 'from', 'to'] },
-            { key: 'awards', title: 'Awards', fields: ['title', 'from', 'to'] },
-            { key: 'academicSupport', title: 'Academic Support', fields: ['role', 'description', 'from', 'to'] },
+            {
+              key: "certifications",
+              title: "Certifications",
+              fields: ["title", "issuer", "from", "to"],
+            },
+            {
+              key: "volunteering",
+              title: "Volunteering",
+              fields: ["role", "description", "from", "to"],
+            },
+            {
+              key: "awards",
+              title: "Awards",
+              fields: ["title", "from", "to"],
+            },
+            {
+              key: "academicSupport",
+              title: "Academic Support",
+              fields: ["role", "description", "from", "to"],
+            },
           ].map((section) => (
             <section key={section.key}>
               <h2>{section.title} (Optional)</h2>
@@ -412,10 +561,12 @@ function WorkCvForm() {
                         <input
                           id={inputId}
                           name={`${section.key}_${i}_${field}`}
-                          type={field === 'from' || field === 'to' ? 'month' : 'text'}
+                          type={field === "from" || field === "to" ? "month" : "text"}
                           placeholder={labelText}
                           value={item[field]}
-                          onChange={(e) => updateSection(section.key, i, field, e.target.value)}
+                          onChange={(e) =>
+                            updateSection(section.key, i, field, e.target.value)
+                          }
                         />
                       </div>
                     );
@@ -427,7 +578,7 @@ function WorkCvForm() {
                 onClick={() =>
                   addItem(section.key, {
                     id: Date.now(),
-                    ...Object.fromEntries(section.fields.map((f) => [f, ''])),
+                    ...Object.fromEntries(section.fields.map((f) => [f, ""])),
                   })
                 }
               >
@@ -452,11 +603,12 @@ function WorkCvForm() {
       <div className="cv-preview" ref={cvRef}>
         <h1>{cvData.personalInfo.name}</h1>
         <p className="details">
-          {cvData.personalInfo.phone} || {cvData.personalInfo.email} || {cvData.personalInfo.location}
+          {cvData.personalInfo.phone} || {cvData.personalInfo.email} ||{" "}
+          {cvData.personalInfo.location}
         </p>
 
         {/* Education preview */}
-        {hasContent(cvData.education, ['degree', 'institution', 'from', 'to', 'grade']) && (
+        {hasContent(cvData.education, ["degree", "institution", "from", "to", "grade"]) && (
           <div>
             <h2>EDUCATION</h2>
             <hr />
@@ -466,7 +618,10 @@ function WorkCvForm() {
                   <strong>{item.degree}</strong>
                   {item.institution && ` — ${item.institution}`}
                   {(item.from || item.to) && (
-                    <span> ({formatMonthYear(item.from)} → {formatMonthYear(item.to)})</span>
+                    <span>
+                      {" "}
+                      ({formatMonthYear(item.from)} → {formatMonthYear(item.to)})
+                    </span>
                   )}
                 </p>
                 {item.grade && <p className="edu-grade">Grade: {item.grade}</p>}
@@ -476,36 +631,41 @@ function WorkCvForm() {
         )}
 
         {/* Work Experience preview */}
-        {hasContent(cvData.workExperience, ['role', 'company', 'from', 'to', 'points']) && (
+        {hasContent(cvData.workExperience, ["role", "company", "from", "to", "points"]) && (
           <div>
             <h2>WORK EXPERIENCE</h2>
             <hr />
-          {cvData.workExperience.map((item) =>(
-            <div key={item.id} className="work-preview-entry">
-              <div className="work-preview-header">
-                <span className="work-preview-title">
-                  <strong>{item.role}</strong>
-                  {item.company && ` ${item.company}`}
-                </span>
-                {(item.from || item.to) && (
-                  <span className="work-preview-date">
-                    {formatMonthYear(item.from)}{item.from && item.to ? '  ' : ''}- {formatMonthYear(item.to)}
+            {cvData.workExperience.map((item) => (
+              <div key={item.id} className="work-preview-entry">
+                <div className="work-preview-header">
+                  <span className="work-preview-title">
+                    <strong>{item.role}</strong>
+                    {item.company && ` ${item.company}`}
                   </span>
-                )}
+                  {(item.from || item.to) && (
+                    <span className="work-preview-date">
+                      {formatMonthYear(item.from)}
+                      {item.from && item.to ? "  " : ""}- {formatMonthYear(item.to)}
+                    </span>
+                  )}
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
           </div>
         )}
 
-        {/* Skills preview — handled separately to support bullet points */}
-        {hasContent(cvData.skills, ['name', 'points']) && (
+        {/* Skills preview */}
+        {hasContent(cvData.skills, ["name", "points"]) && (
           <div>
             <h2>SKILLS</h2>
             <hr />
             {cvData.skills.map((item) => (
               <div key={item.id} className="work-preview-entry">
-                {item.name && <p><strong>{item.name}</strong></p>}
+                {item.name && (
+                  <p>
+                    <strong>{item.name}</strong>
+                  </p>
+                )}
                 {item.points.some((p) => p.trim() !== "") && (
                   <ul className="work-points-list">
                     {item.points
@@ -522,12 +682,35 @@ function WorkCvForm() {
 
         {/* Remaining optional sections preview */}
         {[
-          { key: 'certifications', titleField: 'title', subtitleField: 'issuer', descField: null },
-          { key: 'volunteering', titleField: 'role', subtitleField: null, descField: 'description' },
-          { key: 'awards', titleField: 'title', subtitleField: null, descField: null },
-          { key: 'academicSupport', titleField: 'role', subtitleField: null, descField: 'description' },
+          {
+            key: "certifications",
+            titleField: "title",
+            subtitleField: "issuer",
+            descField: null,
+          },
+          {
+            key: "volunteering",
+            titleField: "role",
+            subtitleField: null,
+            descField: "description",
+          },
+          {
+            key: "awards",
+            titleField: "title",
+            subtitleField: null,
+            descField: null,
+          },
+          {
+            key: "academicSupport",
+            titleField: "role",
+            subtitleField: null,
+            descField: "description",
+          },
         ].map(({ key, titleField, subtitleField, descField }) =>
-          hasContent(cvData[key], Object.keys(cvData[key][0]).filter((k) => k !== 'id')) && (
+          hasContent(
+            cvData[key],
+            Object.keys(cvData[key][0]).filter((k) => k !== "id")
+          ) && (
             <div key={key}>
               <h2>{key.toUpperCase()}</h2>
               <hr />
@@ -540,7 +723,9 @@ function WorkCvForm() {
                     </span>
                     {(item.from || item.to) && (
                       <span className="optional-preview-date">
-                        {formatMonthYear(item.from)}{item.from && item.to ? ' – ' : ''}{formatMonthYear(item.to)}
+                        {formatMonthYear(item.from)}
+                        {item.from && item.to ? " – " : ""}
+                        {formatMonthYear(item.to)}
                       </span>
                     )}
                   </div>
