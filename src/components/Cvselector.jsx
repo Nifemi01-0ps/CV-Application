@@ -15,7 +15,7 @@ function CvSelector() {
               Designed for academic opportunities, scholarships, and research programs. 
               Focused on education and certifications.
             </p>
-            <Link to="/scholarship" className="btn">View Scholarship CV</Link>
+            <Link to="scholarship" className="btn">View Scholarship CV</Link>
           </div>
 
           <div className="card">
@@ -24,7 +24,7 @@ function CvSelector() {
               Designed for job applications and professional roles. 
               Focused on technical skills and project experience.
             </p>
-            <Link to="/work" className="btn">View Work CV</Link>
+            <Link to="work" className="btn">View Work CV</Link>
           </div>
         </div>
       </div>
