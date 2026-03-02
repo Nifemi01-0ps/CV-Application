@@ -1106,6 +1106,10 @@ function ScholarshipCvForm() {
             </ul>
           </div>
         )}
+        <div className="preview-actions">
+          <button type="button" className="btn-edit" onClick={() => setIsEditing(true)}>← Edit</button>
+          <button type="button" className="btn-download" onClick={handlePrint}>Download PDF</button>
+        </div>
       </div>
     </div>
   );
