@@ -6,7 +6,8 @@ function ScholarshipCvForm() {
   const [isEditing, setIsEditing] = useState(true);
   const cvRef = useRef();
   const [skillInput, setSkillInput] = useState("");
-
+  const [step, setStep] = useState(1);
+  const totalStep = 9;
   const [cvData, setCvData] = useState({
     personalInfo: { name: "", phone: "", email: "", location: "" },
     professionalSummary: "",
@@ -156,709 +157,724 @@ function ScholarshipCvForm() {
           className="cv-form"
           onSubmit={(e) => e.preventDefault()}
         >
+          <input type="range" name="stepRange" className="step-range" min="1" max={totalStep} value={step} readOnly />
           {/* Personal Info */}
-          <section>
-            <h2>Personal Information</h2>
-            {["name", "phone", "email", "location"].map((field) => (
-              <div key={field} className="field-group">
-                <label htmlFor={`personal-${field}`}>
-                  {personalInfoLabels[field]}
-                </label>
-                <input
-                  id={`personal-${field}`}
-                  name={`personalInfo_${field}`}
-                  type={field === "email" ? "email" : "text"}
-                  placeholder={personalInfoPlaceholders[field]}
-                  value={cvData.personalInfo[field]}
-                  onChange={(e) =>
+          {step === 1 && ( 
+            <section>
+              <h2>Personal Information</h2>
+              {["name", "phone", "email", "location"].map((field) => (
+                <div key={field} className="field-group">
+                  <label htmlFor={`personal-${field}`}>
+                    {personalInfoLabels[field]}
+                  </label>
+                  <input
+                    id={`personal-${field}`}
+                    name={`personalInfo_${field}`}
+                    type={field === "email" ? "email" : "text"}
+                    placeholder={personalInfoPlaceholders[field]}
+                    value={cvData.personalInfo[field]}
+                    onChange={(e) =>
                     setCvData({
-                      ...cvData,
-                      personalInfo: {
-                        ...cvData.personalInfo,
-                        [field]: e.target.value,
-                      },
-                    })
+                        ...cvData,
+                        personalInfo: {
+                          ...cvData.personalInfo,
+                          [field]: e.target.value,
+                        },
+                      })
+                    }
+                  />
+              </div>
+              ))}
+            </section>
+          )}
+
+
+          {/* Professional Summary */}
+          {step === 2 && (
+            <section>
+              <h2>Professional Summary</h2>
+              <div className="field-group">
+                <label htmlFor="professional-summary">Summary</label>
+                <textarea
+                  id="professional-summary"
+                  name="professionalSummary"
+                  placeholder="Brief overview of your background, skills, and what you're applying for..."
+                  value={cvData.professionalSummary}
+                  onChange={(e) =>
+                  setCvData({ ...cvData, professionalSummary: e.target.value })
                   }
                 />
               </div>
-            ))}
-          </section>
-
-          {/* Professional Summary */}
-          <section>
-            <h2>Professional Summary</h2>
-            <div className="field-group">
-              <label htmlFor="professional-summary">Summary</label>
-              <textarea
-                id="professional-summary"
-                name="professionalSummary"
-                placeholder="Brief overview of your background, skills, and what you're applying for..."
-                value={cvData.professionalSummary}
-                onChange={(e) =>
-                  setCvData({ ...cvData, professionalSummary: e.target.value })
-                }
-              />
-            </div>
-          </section>
+            </section>
+          )}  
 
           {/* Research Interests */}
-          <section>
-            <h2>Research Interests</h2>
-            <div className="field-group">
-              <label htmlFor="research-interests">Interests</label>
-              <input
-                id="research-interests"
-                name="researchInterests"
-                placeholder="e.g. Sustainable Agriculture || Precision Agriculture || Agribusiness"
-                value={cvData.researchInterests}
-                onChange={(e) =>
-                  setCvData({ ...cvData, researchInterests: e.target.value })
-                }
-              />
-            </div>
-          </section>
-
-          {/* Education */}
-          <section>
-            <h2>Education</h2>
-            {cvData.education.map((edu, i) => (
-              <div key={edu.id} className="entry-card">
-                <div className="entry-card-header">
-                  <span>Entry {i + 1}</span>
-                  {cvData.education.length > 1 && (
-                    <button
-                      type="button"
-                      className="btn-remove-entry"
-                      onClick={() => removeItem("education", i)}
-                    >
-                      Remove
-                    </button>
-                  )}
-                </div>
-
-                <div className="field-group">
-                  <label htmlFor={`edu-institution-${i}`}>Institution</label>
-                  <input
-                    id={`edu-institution-${i}`}
-                    value={edu.institution}
-                    placeholder="University of Ilorin"
-                    onChange={(e) =>
-                      updateSection("education", i, "institution", e.target.value)
-                    }
-                  />
-                </div>
-
-                <div className="field-group">
-                  <label htmlFor={`edu-location-${i}`}>Location</label>
-                  <input
-                    id={`edu-location-${i}`}
-                    value={edu.location}
-                    placeholder="Nigeria"
-                    onChange={(e) =>
-                      updateSection("education", i, "location", e.target.value)
-                    }
-                  />
-                </div>
-
-                <div className="field-group">
-                  <label htmlFor={`edu-degree-${i}`}>Degree / Qualification</label>
-                  <input
-                    id={`edu-degree-${i}`}
-                    value={edu.degree}
-                    placeholder="Bachelor of Agriculture (B.Agric)"
-                    onChange={(e) =>
-                      updateSection("education", i, "degree", e.target.value)
-                    }
-                  />
-                </div>
-
-                <div className="field-group">
-                  <label htmlFor={`edu-from-${i}`}>Start Date</label>
-                  <input
-                    id={`edu-from-${i}`}
-                    type="month"
-                    value={edu.from}
-                    onChange={(e) =>
-                      updateSection("education", i, "from", e.target.value)
-                    }
-                  />
-                </div>
-
-                <div className="field-group">
-                  <label htmlFor={`edu-to-${i}`}>End Date</label>
-                  <input
-                    id={`edu-to-${i}`}
-                    type="month"
-                    value={edu.to}
-                    onChange={(e) =>
-                      updateSection("education", i, "to", e.target.value)
-                    }
-                  />
-                </div>
-
-                <div className="field-group">
-                  <label htmlFor={`edu-grade-${i}`}>Final Grade</label>
-                  <input
-                    id={`edu-grade-${i}`}
-                    value={edu.grade}
-                    placeholder="Second Class Upper"
-                    onChange={(e) =>
-                      updateSection("education", i, "grade", e.target.value)
-                    }
-                  />
-                </div>
-
-                <div className="field-group">
-                  <label htmlFor={`edu-gpa-${i}`}>
-                    GPA: {Number(edu.gpa).toFixed(1)} / 5.0
-                  </label>
-                  <input
-                    type="range"
-                    min="1"
-                    max="5"
-                    step="0.1"
-                    id={`edu-gpa-${i}`}
-                    value={edu.gpa}
-                    onChange={(e) =>
-                      updateSection("education", i, "gpa", Number(e.target.value))
-                    }
-                  />
-                </div>
-
-                <div className="field-group">
-                  <label htmlFor={`edu-thesis-${i}`}>Thesis Title (Optional)</label>
-                  <input
-                    id={`edu-thesis-${i}`}
-                    value={edu.thesis}
-                    placeholder="Effect of Peri-urban Poultry Production..."
-                    onChange={(e) =>
-                      updateSection("education", i, "thesis", e.target.value)
-                    }
-                  />
-                </div>
-              </div>
-            ))}
-
-            <button
-              type="button"
-              className="btn-add-entry"
-              onClick={() =>
-                addItem("education", {
-                  id: Date.now(),
-                  institution: "",
-                  location: "",
-                  degree: "",
-                  from: "",
-                  to: "",
-                  grade: "",
-                  gpa: 1,
-                  thesis: "",
-                })
-              }
-            >
-              + Add Education
-            </button>
-          </section>
-
-          {/* Research Experience */}
-          <section>
-            <h2>Research Experience</h2>
-            {cvData.researchExperience.map((exp, i) => (
-              <div key={exp.id} className="entry-card">
-                <div className="entry-card-header">
-                  <span>Entry {i + 1}</span>
-                  {cvData.researchExperience.length > 1 && (
-                    <button
-                      type="button"
-                      className="btn-remove-entry"
-                      onClick={() => removeItem("researchExperience", i)}
-                    >
-                      Remove
-                    </button>
-                  )}
-                </div>
-
-                <div className="field-group">
-                  <label htmlFor={`research-role-${i}`}>Role / Title</label>
-                  <input
-                    id={`research-role-${i}`}
-                    name={`researchExperience_${i}_role`}
-                    placeholder="Research Assistant"
-                    value={exp.role}
-                    onChange={(e) =>
-                      updateSection("researchExperience", i, "role", e.target.value)
-                    }
-                  />
-                </div>
-
-                <div className="field-group">
-                  <label htmlFor={`research-institution-${i}`}>
-                    Institution / Department
-                  </label>
-                  <input
-                    id={`research-institution-${i}`}
-                    name={`researchExperience_${i}_institution`}
-                    placeholder="Department of Agricultural Economics"
-                    value={exp.institution}
-                    onChange={(e) =>
-                      updateSection("researchExperience", i, "institution", e.target.value)
-                    }
-                  />
-                </div>
-
-                <div className="field-group">
-                  <label htmlFor={`research-from-${i}`}>Start Date</label>
-                  <input
-                    id={`research-from-${i}`}
-                    name={`researchExperience_${i}_from`}
-                    type="month"
-                    value={exp.from}
-                    onChange={(e) =>
-                      updateSection("researchExperience", i, "from", e.target.value)
-                    }
-                  />
-                </div>
-
-                <div className="field-group">
-                  <label htmlFor={`research-to-${i}`}>End Date</label>
-                  <input
-                    id={`research-to-${i}`}
-                    name={`researchExperience_${i}_to`}
-                    type="month"
-                    value={exp.to}
-                    onChange={(e) =>
-                      updateSection("researchExperience", i, "to", e.target.value)
-                    }
-                  />
-                </div>
-
-                <div className="field-group">
-                  <label>Key Responsibilities / Achievements</label>
-                  {exp.points.map((point, pi) => (
-                    <div key={pi} className="point-row">
-                      <input
-                        id={`research-point-${i}-${pi}`}
-                        name={`researchExperience_${i}_point_${pi}`}
-                        placeholder={`Point ${pi + 1}`}
-                        value={point}
-                        onChange={(e) =>
-                          updatePoint("researchExperience", i, pi, e.target.value)
-                        }
-                      />
-                      {exp.points.length > 1 && (
-                        <button
-                          type="button"
-                          className="btn-remove-point"
-                          onClick={() => removePoint("researchExperience", i, pi)}
-                        >
-                          ✕
-                        </button>
-                      )}
-                    </div>
-                  ))}
-                  <button
-                    type="button"
-                    className="btn-add-point"
-                    onClick={() => addPoint("researchExperience", i)}
-                  >
-                    + Add Point
-                  </button>
-                </div>
-              </div>
-            ))}
-
-            <button
-              type="button"
-              className="btn-add-entry"
-              onClick={() =>
-                addItem("researchExperience", {
-                  id: Date.now(),
-                  role: "",
-                  institution: "",
-                  from: "",
-                  to: "",
-                  points: [""],
-                })
-              }
-            >
-              + Add Research Experience
-            </button>
-          </section>
-
-          {/* Industrial Experience */}
-          <section>
-            <h2>Industrial Experience</h2>
-            {cvData.industrialExperience.map((exp, i) => (
-              <div key={exp.id} className="entry-card">
-                <div className="entry-card-header">
-                  <span>Entry {i + 1}</span>
-                  {cvData.industrialExperience.length > 1 && (
-                    <button
-                      type="button"
-                      className="btn-remove-entry"
-                      onClick={() => removeItem("industrialExperience", i)}
-                    >
-                      Remove
-                    </button>
-                  )}
-                </div>
-
-                <div className="field-group">
-                  <label htmlFor={`industrial-role-${i}`}>Role / Job Title</label>
-                  <input
-                    id={`industrial-role-${i}`}
-                    name={`industrialExperience_${i}_role`}
-                    placeholder="Industrial Trainee"
-                    value={exp.role}
-                    onChange={(e) =>
-                      updateSection("industrialExperience", i, "role", e.target.value)
-                    }
-                  />
-                </div>
-
-                <div className="field-group">
-                  <label htmlFor={`industrial-org-${i}`}>Organization / Company</label>
-                  <input
-                    id={`industrial-org-${i}`}
-                    name={`industrialExperience_${i}_organization`}
-                    placeholder="T and K Feed Mill, Ilorin"
-                    value={exp.organization}
-                    onChange={(e) =>
-                      updateSection("industrialExperience", i, "organization", e.target.value)
-                    }
-                  />
-                </div>
-
-                <div className="field-group">
-                  <label htmlFor={`industrial-from-${i}`}>Start Date</label>
-                  <input
-                    id={`industrial-from-${i}`}
-                    name={`industrialExperience_${i}_from`}
-                    type="month"
-                    value={exp.from}
-                    onChange={(e) =>
-                      updateSection("industrialExperience", i, "from", e.target.value)
-                    }
-                  />
-                </div>
-
-                <div className="field-group">
-                  <label htmlFor={`industrial-to-${i}`}>End Date</label>
-                  <input
-                    id={`industrial-to-${i}`}
-                    name={`industrialExperience_${i}_to`}
-                    type="month"
-                    value={exp.to}
-                    onChange={(e) =>
-                      updateSection("industrialExperience", i, "to", e.target.value)
-                    }
-                  />
-                </div>
-
-                <div className="field-group">
-                  <label>Key Responsibilities / Achievements</label>
-                  {exp.points.map((point, pi) => (
-                    <div key={pi} className="point-row">
-                      <input
-                        id={`industrial-point-${i}-${pi}`}
-                        name={`industrialExperience_${i}_point_${pi}`}
-                        placeholder={`Point ${pi + 1}`}
-                        value={point}
-                        onChange={(e) =>
-                          updatePoint("industrialExperience", i, pi, e.target.value)
-                        }
-                      />
-                      {exp.points.length > 1 && (
-                        <button
-                          type="button"
-                          className="btn-remove-point"
-                          onClick={() => removePoint("industrialExperience", i, pi)}
-                        >
-                          ✕
-                        </button>
-                      )}
-                    </div>
-                  ))}
-                  <button
-                    type="button"
-                    className="btn-add-point"
-                    onClick={() => addPoint("industrialExperience", i)}
-                  >
-                    + Add Point
-                  </button>
-                </div>
-              </div>
-            ))}
-
-            <button
-              type="button"
-              className="btn-add-entry"
-              onClick={() =>
-                addItem("industrialExperience", {
-                  id: Date.now(),
-                  role: "",
-                  organization: "",
-                  from: "",
-                  to: "",
-                  points: [""],
-                })
-              }
-            >
-              + Add Industrial Experience
-            </button>
-          </section>
-
-          {/* Certifications */}
-          <section>
-            <h2>Certifications</h2>
-            {cvData.certifications.map((cert, i) => (
-              <div key={cert.id} className="entry-card">
-                <div className="entry-card-header">
-                  <span>Entry {i + 1}</span>
-                  {cvData.certifications.length > 1 && (
-                    <button
-                      type="button"
-                      className="btn-remove-entry"
-                      onClick={() => removeItem("certifications", i)}
-                    >
-                      Remove
-                    </button>
-                  )}
-                </div>
-
-                <div className="field-group">
-                  <label htmlFor={`cert-title-${i}`}>Certification Title</label>
-                  <input
-                    id={`cert-title-${i}`}
-                    name={`certifications_${i}_title`}
-                    placeholder="Certificate of Participation"
-                    value={cert.title}
-                    onChange={(e) =>
-                      updateSection("certifications", i, "title", e.target.value)
-                    }
-                  />
-                </div>
-
-                <div className="field-group">
-                  <label htmlFor={`cert-org-${i}`}>Issuing Organization</label>
-                  <input
-                    id={`cert-org-${i}`}
-                    name={`certifications_${i}_organization`}
-                    placeholder="Nigeria Association of Agricultural Student"
-                    value={cert.organization}
-                    onChange={(e) =>
-                      updateSection("certifications", i, "organization", e.target.value)
-                    }
-                  />
-                </div>
-
-                <div className="field-group">
-                  <label htmlFor={`cert-year-${i}`}>Year</label>
-                  <input
-                    id={`cert-year-${i}`}
-                    name={`certifications_${i}_year`}
-                    type="month"
-                    value={cert.year}
-                    onChange={(e) =>
-                      updateSection("certifications", i, "year", e.target.value)
-                    }
-                  />
-                </div>
-
-                <div className="field-group">
-                  <label>Additional Details (Optional)</label>
-                  {cert.points.map((point, pi) => (
-                    <div key={pi} className="point-row">
-                      <input
-                        id={`cert-point-${i}-${pi}`}
-                        name={`certifications_${i}_point_${pi}`}
-                        placeholder={`Detail ${pi + 1}`}
-                        value={point}
-                        onChange={(e) =>
-                          updatePoint("certifications", i, pi, e.target.value)
-                        }
-                      />
-                      {cert.points.length > 1 && (
-                        <button
-                          type="button"
-                          className="btn-remove-point"
-                          onClick={() => removePoint("certifications", i, pi)}
-                        >
-                          ✕
-                        </button>
-                      )}
-                    </div>
-                  ))}
-                  <button
-                    type="button"
-                    className="btn-add-point"
-                    onClick={() => addPoint("certifications", i)}
-                  >
-                    + Add Detail
-                  </button>
-                </div>
-              </div>
-            ))}
-
-            <button
-              type="button"
-              className="btn-add-entry"
-              onClick={() =>
-                addItem("certifications", {
-                  id: Date.now(),
-                  title: "",
-                  organization: "",
-                  year: "",
-                  points: [""],
-                })
-              }
-            >
-              + Add Certification
-            </button>
-          </section>
-
-          {/* Leadership */}
-          <section>
-            <h2>Volunteering &amp; Leadership</h2>
-            {cvData.leadership.map((lead, i) => (
-              <div key={lead.id} className="entry-card">
-                <div className="entry-card-header">
-                  <span>Entry {i + 1}</span>
-                  {cvData.leadership.length > 1 && (
-                    <button
-                      type="button"
-                      className="btn-remove-entry"
-                      onClick={() => removeItem("leadership", i)}
-                    >
-                      Remove
-                    </button>
-                  )}
-                </div>
-
-                <div className="field-group">
-                  <label htmlFor={`leadership-role-${i}`}>Role / Position</label>
-                  <input
-                    id={`leadership-role-${i}`}
-                    name={`leadership_${i}_role`}
-                    placeholder="Community Development Service"
-                    value={lead.role}
-                    onChange={(e) =>
-                      updateSection("leadership", i, "role", e.target.value)
-                    }
-                  />
-                </div>
-
-                <div className="field-group">
-                  <label htmlFor={`leadership-org-${i}`}>Organization / Program</label>
-                  <input
-                    id={`leadership-org-${i}`}
-                    name={`leadership_${i}_organization`}
-                    placeholder="National Youth Service Corps (NYSC)"
-                    value={lead.organization}
-                    onChange={(e) =>
-                      updateSection("leadership", i, "organization", e.target.value)
-                    }
-                  />
-                </div>
-
-                <div className="field-group">
-                  <label>Key Contributions</label>
-                  {lead.points.map((point, pi) => (
-                    <div key={pi} className="point-row">
-                      <input
-                        id={`leadership-point-${i}-${pi}`}
-                        name={`leadership_${i}_point_${pi}`}
-                        placeholder={`Point ${pi + 1}`}
-                        value={point}
-                        onChange={(e) =>
-                          updatePoint("leadership", i, pi, e.target.value)
-                        }
-                      />
-                      {lead.points.length > 1 && (
-                        <button
-                          type="button"
-                          className="btn-remove-point"
-                          onClick={() => removePoint("leadership", i, pi)}
-                        >
-                          ✕
-                        </button>
-                      )}
-                    </div>
-                  ))}
-                  <button
-                    type="button"
-                    className="btn-add-point"
-                    onClick={() => addPoint("leadership", i)}
-                  >
-                    + Add Point
-                  </button>
-                </div>
-              </div>
-            ))}
-
-            <button
-              type="button"
-              className="btn-add-entry"
-              onClick={() =>
-                addItem("leadership", {
-                  id: Date.now(),
-                  role: "",
-                  organization: "",
-                  points: [""],
-                })
-              }
-            >
-              + Add Leadership Role
-            </button>
-          </section>
-
-          {/* Skills */}
-          <section>
-            <h2>Skills</h2>
-            <div className="skill-input-row">
-              <input
-                id="skill-input"
-                type="text"
-                placeholder="Type a skill and press Add or Enter"
-                value={skillInput}
-                onChange={(e) => setSkillInput(e.target.value)}
-                onKeyDown={(e) => {
-                  if (e.key === "Enter") {
-                    e.preventDefault();
-                    addSkill();
+          {step === 3 && (
+            <section>
+              <h2>Research Interests</h2>
+              <div className="field-group">
+                <label htmlFor="research-interests">Interests</label>
+                <input
+                  id="research-interests"
+                  name="researchInterests"
+                  placeholder="e.g. Sustainable Agriculture || Precision Agriculture || Agribusiness"
+                  value={cvData.researchInterests}
+                  onChange={(e) =>
+                    setCvData({ ...cvData, researchInterests: e.target.value })
                   }
-                }}
-              />
-              <button type="button" className="btn-add-point" onClick={addSkill}>
-                + Add
-              </button>
-            </div>
-            {cvData.skills.length > 0 && (
-              <div className="skill-chips">
-                {cvData.skills.map((s) => (
-                  <span key={s.id} className="skill-chip">
-                    {s.name}
+                />
+              </div>
+            </section>
+          )}
+          {/* Education */}
+          {step === 4 && (
+            <section>
+              <h2>Education</h2>
+              {cvData.education.map((edu, i) => (
+                <div key={edu.id} className="entry-card">
+                  <div className="entry-card-header">
+                    <span>Entry {i + 1}</span>
+                    {cvData.education.length > 1 && (
+                      <button
+                        type="button"
+                        className="btn-remove-entry"
+                        onClick={() => removeItem("education", i)}
+                      >
+                        Remove
+                      </button>
+                    )}
+                  </div>
+
+                  <div className="field-group">
+                    <label htmlFor={`edu-institution-${i}`}>Institution</label>
+                    <input
+                      id={`edu-institution-${i}`}
+                      value={edu.institution}
+                      placeholder="University of Ilorin"
+                      onChange={(e) =>
+                      updateSection("education", i, "institution", e.target.value)
+                      }
+                    />
+                  </div>
+
+                  <div className="field-group">
+                    <label htmlFor={`edu-location-${i}`}>Location</label>
+                    <input
+                      id={`edu-location-${i}`}
+                      value={edu.location}
+                      placeholder="Nigeria"
+                      onChange={(e) =>
+                      updateSection("education", i, "location", e.target.value)
+                      }
+                    />
+                  </div>
+
+                  <div className="field-group">
+                    <label htmlFor={`edu-degree-${i}`}>Degree / Qualification</label>
+                    <input
+                      id={`edu-degree-${i}`}
+                      value={edu.degree}
+                      placeholder="Bachelor of Agriculture (B.Agric)"
+                      onChange={(e) =>
+                      updateSection("education", i, "degree", e.target.value)
+                      }
+                    />
+                  </div>
+
+                  <div className="field-group">
+                    <label htmlFor={`edu-from-${i}`}>Start Date</label>
+                    <input
+                      id={`edu-from-${i}`}
+                      type="month"
+                      value={edu.from}
+                      onChange={(e) =>
+                        updateSection("education", i, "from", e.target.value)
+                      }
+                    />
+                  </div>
+
+                  <div className="field-group">
+                    <label htmlFor={`edu-to-${i}`}>End Date</label>
+                    <input
+                      id={`edu-to-${i}`}
+                      type="month"
+                      value={edu.to}
+                      onChange={(e) =>
+                        updateSection("education", i, "to", e.target.value)
+                      }
+                    />
+                  </div>
+
+                  <div className="field-group">
+                    <label htmlFor={`edu-grade-${i}`}>Final Grade</label>
+                    <input
+                      id={`edu-grade-${i}`}
+                      value={edu.grade}
+                      placeholder="Second Class Upper"
+                      onChange={(e) =>
+                        updateSection("education", i, "grade", e.target.value)
+                      }
+                    />
+                  </div>
+
+                  <div className="field-group">
+                    <label htmlFor={`edu-gpa-${i}`}>
+                      GPA: {Number(edu.gpa).toFixed(1)} / 5.0
+                    </label>
+                    <input
+                      type="range"
+                      min="1"
+                      max="5"
+                      step="0.1"
+                      id={`edu-gpa-${i}`}
+                      value={edu.gpa}
+                      onChange={(e) =>
+                      updateSection("education", i, "gpa", Number(e.target.value))
+                      }
+                    />
+                  </div>
+
+                  <div className="field-group">
+                    <label htmlFor={`edu-thesis-${i}`}>Thesis Title (Optional)</label>
+                    <input
+                      id={`edu-thesis-${i}`}
+                      value={edu.thesis}
+                      placeholder="Effect of Peri-urban Poultry Production..."
+                      onChange={(e) =>
+                        updateSection("education", i, "thesis", e.target.value)
+                      }
+                    />
+                  </div>
+                </div>
+              ))}
+            
+              <button
+                type="button"
+                className="btn-add-entry"
+                onClick={() =>
+                  addItem("education", {
+                    id: Date.now(),
+                    institution: "",
+                    location: "",
+                    degree: "",
+                    from: "",
+                    to: "",
+                    grade: "",
+                    gpa: 1,
+                    thesis: "",
+                  })
+                }
+              >
+                + Add Education
+             </button>
+           </section>
+          )}
+          {/* Research Experience */}
+          {step === 5 && (
+            <section>
+              <h2>Research Experience</h2>
+              {cvData.researchExperience.map((exp, i) => (
+                <div key={exp.id} className="entry-card">
+                  <div className="entry-card-header">
+                    <span>Entry {i + 1}</span>
+                    {cvData.researchExperience.length > 1 && (
+                      <button
+                        type="button"
+                        className="btn-remove-entry"
+                        onClick={() => removeItem("researchExperience", i)}
+                      >
+                        Remove
+                     </button>
+                    )}
+                  </div>
+
+                  <div className="field-group">
+                    <label htmlFor={`research-role-${i}`}>Role / Title</label>
+                    <input
+                      id={`research-role-${i}`}
+                      name={`researchExperience_${i}_role`}
+                      placeholder="Research Assistant"
+                      value={exp.role}
+                      onChange={(e) =>
+                        updateSection("researchExperience", i, "role", e.target.value)
+                      }
+                    />
+                  </div>
+
+                  <div className="field-group">
+                    <label htmlFor={`research-institution-${i}`}>
+                      Institution / Department
+                    </label>
+                    <input
+                      id={`research-institution-${i}`}
+                      name={`researchExperience_${i}_institution`}
+                      placeholder="Department of Agricultural Economics"
+                      value={exp.institution}
+                      onChange={(e) =>
+                        updateSection("researchExperience", i, "institution", e.target.value)
+                      }
+                    />
+                  </div>
+
+                  <div className="field-group">
+                    <label htmlFor={`research-from-${i}`}>Start Date</label>
+                    <input
+                      id={`research-from-${i}`}
+                      name={`researchExperience_${i}_from`}
+                      type="month"
+                      value={exp.from}
+                      onChange={(e) =>
+                        updateSection("researchExperience", i, "from", e.target.value)
+                      }
+                    />
+                  </div>
+
+                  <div className="field-group">
+                    <label htmlFor={`research-to-${i}`}>End Date</label>
+                    <input
+                      id={`research-to-${i}`}
+                      name={`researchExperience_${i}_to`}
+                      type="month"
+                      value={exp.to}
+                      onChange={(e) =>
+                        updateSection("researchExperience", i, "to", e.target.value)
+                      }
+                    />
+                  </div>
+
+                  <div className="field-group">
+                    <label>Key Responsibilities / Achievements</label>
+                    {exp.points.map((point, pi) => (
+                      <div key={pi} className="point-row">
+                        <input
+                          id={`research-point-${i}-${pi}`}
+                          name={`researchExperience_${i}_point_${pi}`}
+                          placeholder={`Point ${pi + 1}`}
+                          value={point}
+                          onChange={(e) =>
+                            updatePoint("researchExperience", i, pi, e.target.value)
+                          }
+                        />
+                        {exp.points.length > 1 && (
+                          <button
+                            type="button"
+                            className="btn-remove-point"
+                            onClick={() => removePoint("researchExperience", i, pi)}
+                          >
+                            ✕
+                          </button>
+                        )}
+                      </div>
+                    ))}
                     <button
                       type="button"
-                      className="skill-chip-remove"
-                      onClick={() => removeSkill(s.id)}
+                      className="btn-add-point"
+                      onClick={() => addPoint("researchExperience", i)}
                     >
-                      ✕
+                      + Add Point
                     </button>
-                  </span>
-                ))}
-              </div>
-            )}
-          </section>
+                  </div>
+                </div>
+              ))}
 
+              <button
+                type="button"
+                className="btn-add-entry"
+                onClick={() =>
+                  addItem("researchExperience", {
+                    id: Date.now(),
+                    role: "",
+                    institution: "",
+                    from: "",
+                    to: "",
+                    points: [""],
+                  })
+                }
+              >
+                + Add Research Experience
+              </button>
+            </section>
+          )}
+          {/* Industrial Experience */}
+          {step === 6 && (
+            <section>
+              <h2>Industrial Experience</h2>
+              {cvData.industrialExperience.map((exp, i) => (
+                <div key={exp.id} className="entry-card">
+                  <div className="entry-card-header">
+                    <span>Entry {i + 1}</span>
+                    {cvData.industrialExperience.length > 1 && (
+                      <button
+                        type="button"
+                        className="btn-remove-entry"
+                        onClick={() => removeItem("industrialExperience", i)}
+                      >
+                        Remove
+                      </button>
+                    )}
+                  </div>
+
+                  <div className="field-group">
+                    <label htmlFor={`industrial-role-${i}`}>Role / Job Title</label>
+                    <input
+                      id={`industrial-role-${i}`}
+                      name={`industrialExperience_${i}_role`}
+                      placeholder="Industrial Trainee"
+                      value={exp.role}
+                      onChange={(e) =>
+                        updateSection("industrialExperience", i, "role", e.target.value)
+                      }
+                    />
+                  </div>
+
+                  <div className="field-group">
+                    <label htmlFor={`industrial-org-${i}`}>Organization / Company</label>
+                    <input
+                      id={`industrial-org-${i}`}
+                      name={`industrialExperience_${i}_organization`}
+                      placeholder="T and K Feed Mill, Ilorin"
+                      value={exp.organization}
+                      onChange={(e) =>
+                        updateSection("industrialExperience", i, "organization", e.target.value)
+                      }
+                    />
+                  </div>
+
+                  <div className="field-group">
+                    <label htmlFor={`industrial-from-${i}`}>Start Date</label>
+                    <input
+                      id={`industrial-from-${i}`}
+                      name={`industrialExperience_${i}_from`}
+                      type="month"
+                      value={exp.from}
+                      onChange={(e) =>
+                        updateSection("industrialExperience", i, "from", e.target.value)
+                      }
+                    />
+                  </div>
+
+                  <div className="field-group">
+                    <label htmlFor={`industrial-to-${i}`}>End Date</label>
+                    <input
+                      id={`industrial-to-${i}`}
+                      name={`industrialExperience_${i}_to`}
+                      type="month"
+                      value={exp.to}
+                      onChange={(e) =>
+                        updateSection("industrialExperience", i, "to", e.target.value)
+                      }
+                    />
+                  </div>
+
+                  <div className="field-group">
+                    <label>Key Responsibilities / Achievements</label>
+                    {exp.points.map((point, pi) => (
+                      <div key={pi} className="point-row">
+                        <input
+                          id={`industrial-point-${i}-${pi}`}
+                          name={`industrialExperience_${i}_point_${pi}`}
+                          placeholder={`Point ${pi + 1}`}
+                          value={point}
+                          onChange={(e) =>
+                            updatePoint("industrialExperience", i, pi, e.target.value)
+                          }
+                        />
+                        {exp.points.length > 1 && (
+                          <button
+                            type="button"
+                            className="btn-remove-point"
+                            onClick={() => removePoint("industrialExperience", i, pi)}
+                          >
+                            ✕
+                          </button>
+                        )}
+                      </div>
+                    ))}
+                    <button
+                      type="button"
+                      className="btn-add-point"
+                      onClick={() => addPoint("industrialExperience", i)}
+                    >
+                      + Add Point
+                    </button>
+                  </div>
+                </div>
+              ))}
+
+              <button
+                type="button"
+                className="btn-add-entry"
+                onClick={() =>
+                  addItem("industrialExperience", {
+                    id: Date.now(),
+                    role: "",
+                    organization: "",
+                    from: "",
+                    to: "",
+                    points: [""],
+                  })
+                }
+              >
+                + Add Industrial Experience
+              </button>
+            </section>
+          )}
+          {/* Certifications */}
+          {step === 7 && (
+            <section>
+              <h2>Certifications</h2>
+              {cvData.certifications.map((cert, i) => (
+                <div key={cert.id} className="entry-card">
+                  <div className="entry-card-header">
+                    <span>Entry {i + 1}</span>
+                    {cvData.certifications.length > 1 && (
+                      <button
+                        type="button"
+                        className="btn-remove-entry"
+                        onClick={() => removeItem("certifications", i)}
+                      >
+                        Remove
+                      </button>
+                    )}
+                  </div>
+
+                  <div className="field-group">
+                    <label htmlFor={`cert-title-${i}`}>Certification Title</label>
+                    <input
+                      id={`cert-title-${i}`}
+                      name={`certifications_${i}_title`}
+                      placeholder="Certificate of Participation"
+                      value={cert.title}
+                      onChange={(e) =>
+                        updateSection("certifications", i, "title", e.target.value)
+                      }
+                    />
+                  </div>
+
+                  <div className="field-group">
+                    <label htmlFor={`cert-org-${i}`}>Issuing Organization</label>
+                    <input
+                      id={`cert-org-${i}`}
+                      name={`certifications_${i}_organization`}
+                      placeholder="Nigeria Association of Agricultural Student"
+                      value={cert.organization}
+                      onChange={(e) =>
+                        updateSection("certifications", i, "organization", e.target.value)
+                      }
+                    />
+                  </div>
+
+                  <div className="field-group">
+                    <label htmlFor={`cert-year-${i}`}>Year</label>
+                    <input
+                      id={`cert-year-${i}`}
+                      name={`certifications_${i}_year`}
+                      type="month"
+                      value={cert.year}
+                      onChange={(e) =>
+                        updateSection("certifications", i, "year", e.target.value)
+                      }
+                    />
+                  </div>
+
+                  <div className="field-group">
+                    <label>Additional Details (Optional)</label>
+                    {cert.points.map((point, pi) => (
+                      <div key={pi} className="point-row">
+                        <input
+                          id={`cert-point-${i}-${pi}`}
+                          name={`certifications_${i}_point_${pi}`}
+                          placeholder={`Detail ${pi + 1}`}
+                          value={point}
+                          onChange={(e) =>
+                            updatePoint("certifications", i, pi, e.target.value)
+                          }
+                        />
+                        {cert.points.length > 1 && (
+                          <button
+                            type="button"
+                            className="btn-remove-point"
+                            onClick={() => removePoint("certifications", i, pi)}
+                          >
+                            ✕
+                          </button>
+                        )}
+                      </div>
+                    ))}
+                    <button
+                      type="button"
+                      className="btn-add-point"
+                      onClick={() => addPoint("certifications", i)}
+                    >
+                      + Add Detail
+                    </button>
+                  </div>
+                </div>
+              ))}
+
+              <button
+                type="button"
+                className="btn-add-entry"
+                onClick={() =>
+                  addItem("certifications", {
+                    id: Date.now(),
+                    title: "",
+                    organization: "",
+                    year: "",
+                    points: [""],
+                  })
+                }
+              >
+                + Add Certification
+              </button>
+            </section>
+          )}
+          {/* Leadership */}
+          {step === 8 && (
+            <section>
+              <h2>Volunteering &amp; Leadership</h2>
+             {cvData.leadership.map((lead, i) => (
+                <div key={lead.id} className="entry-card">
+                  <div className="entry-card-header">
+                    <span>Entry {i + 1}</span>
+                    {cvData.leadership.length > 1 && (
+                      <button
+                        type="button"
+                        className="btn-remove-entry"
+                        onClick={() => removeItem("leadership", i)}
+                      >
+                        Remove
+                      </button>
+                    )}
+                  </div>
+
+                  <div className="field-group">
+                    <label htmlFor={`leadership-role-${i}`}>Role / Position</label>
+                    <input
+                      id={`leadership-role-${i}`}
+                      name={`leadership_${i}_role`}
+                      placeholder="Community Development Service"
+                      value={lead.role}
+                      onChange={(e) =>
+                        updateSection("leadership", i, "role", e.target.value)
+                      }
+                    />
+                  </div>
+
+                  <div className="field-group">
+                    <label htmlFor={`leadership-org-${i}`}>Organization / Program</label>
+                    <input
+                      id={`leadership-org-${i}`}
+                      name={`leadership_${i}_organization`}
+                      placeholder="National Youth Service Corps (NYSC)"
+                      value={lead.organization}
+                      onChange={(e) =>
+                        updateSection("leadership", i, "organization", e.target.value)
+                      }
+                    />
+                  </div>
+
+                  <div className="field-group">
+                    <label>Key Contributions</label>
+                    {lead.points.map((point, pi) => (
+                      <div key={pi} className="point-row">
+                        <input
+                          id={`leadership-point-${i}-${pi}`}
+                          name={`leadership_${i}_point_${pi}`}
+                          placeholder={`Point ${pi + 1}`}
+                          value={point}
+                          onChange={(e) =>
+                            updatePoint("leadership", i, pi, e.target.value)
+                          }
+                        />
+                        {lead.points.length > 1 && (
+                          <button
+                            type="button"
+                            className="btn-remove-point"
+                            onClick={() => removePoint("leadership", i, pi)}
+                          >
+                            ✕
+                          </button>
+                        )}
+                      </div>
+                    ))}
+                    <button
+                      type="button"
+                      className="btn-add-point"
+                      onClick={() => addPoint("leadership", i)}
+                    >
+                      + Add Point
+                    </button>
+                  </div>
+                </div>
+              ))}
+
+              <button
+                type="button"
+                className="btn-add-entry"
+                onClick={() =>
+                  addItem("leadership", {
+                    id: Date.now(),
+                    role: "",
+                    organization: "",
+                    points: [""],
+                  })
+                }
+              >
+                + Add Leadership Role
+              </button>
+            </section>
+          )}
+          {/* Skills */}
+          {step === 9 && (
+            <section>
+              <h2>Skills</h2>
+              <div className="skill-input-row">
+                <input
+                  id="skill-input"
+                  type="text"
+                  placeholder="Type a skill and press Add or Enter"
+                  value={skillInput}
+                  onChange={(e) => setSkillInput(e.target.value)}
+                    onKeyDown={(e) => {
+                    if (e.key === "Enter") {
+                      e.preventDefault();
+                      addSkill();
+                    }
+                  }}
+                />
+                <button type="button" className="btn-add-point" onClick={addSkill}>
+                  + Add
+                </button>
+              </div>
+              {cvData.skills.length > 0 && (
+                <div className="skill-chips">
+                  {cvData.skills.map((s) => (
+                    <span key={s.id} className="skill-chip">
+                      {s.name}
+                      <button
+                        type="button"
+                        className="skill-chip-remove"
+                        onClick={() => removeSkill(s.id)}
+                      >
+                        ✕
+                      </button>
+                    </span>
+                  ))}
+                </div>
+              )}
+            </section>
+          )}
           <div className="form-actions">
-            <button
-              type="button"
-              className="btn-preview"
-              onClick={() => setIsEditing(false)}
-            >
-              Save &amp; Preview →
-            </button>
+            {step > 1 && (
+              <button type="button" className="btn-back" onClick={() => setStep(step - 1)}>← Back</button>
+            )}
+            {step < totalStep && (
+              <button type="button" className="btn-next" onClick={() => setStep(step + 1)}>Next →</button>
+            )}
+            {step === totalStep && (
+              <button type="button" className="btn-preview" onClick={() => setIsEditing(false)}>Save & Preview →</button>
+            )}
           </div>
         </form>
       </div>
