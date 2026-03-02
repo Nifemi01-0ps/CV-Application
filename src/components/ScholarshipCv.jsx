@@ -21,7 +21,7 @@ function ScholarshipCvForm() {
         from: "",
         to: "",
         grade: "",
-        gpa: "",
+        gpa: 1,
         thesis: "",
       },
     ],
@@ -948,16 +948,18 @@ function ScholarshipCvForm() {
                   )}
                 </div>
                 {edu.degree && <p className="edu-degree">{edu.degree}</p>}
-                {(edu.grade || edu.gpa) && (
+                {(edu.grade || typeof edu.gpa === "number") && (
                   <p className="edu-meta">
                     {edu.grade && <span>Final Grade: {edu.grade}</span>}
-                    {edu.grade && edu.gpa && (
+                    {edu.grade && typeof edu.gpa === "number" && (
                       <span className="edu-sep"> &nbsp;·&nbsp; </span>
                     )}
-                    {edu.gpa && <span>GPA: {edu.gpa}</span>}
+                    {typeof edu.gpa === "number" && ( 
+                      <span>GPA: {edu.gpa.toFixed(1)} / 5.0</span>
+                      )}
                   </p>
                 )}
-                {edu.thesis && <p className="edu-thesis">Thesis: {edu.thesis}</p>}
+                {edu.thesis && <p className="edu-thesis">Thesis: <strong>{edu.thesis}</strong></p>}
               </div>
             ))}
           </div>
