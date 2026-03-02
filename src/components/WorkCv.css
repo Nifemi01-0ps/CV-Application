@@ -199,7 +199,7 @@ h1, h2, h3, h4 {
    transform: translateY(0);
    transition: transform 0.3s ease, opacity 0.3s ease;
  }
- .preview-action, .preview-toolbar {
+ .preview-actions, .preview-toolbar {
    display: flex;
    justify-content: flex-end;
    gap: 1rem;
