@@ -8,7 +8,7 @@ function WorkCvForm() {
 
   const [cvData, setCvData] = useState({
     personalInfo: { name: "", phone: "", email: "", location: "" },
-    education: [{ id: 1, degree: "", institution: "", from: "", to: "", grade: "" }],
+    education: [{ id: 1, degree: "", institution: "", from: "", to: "", grade: "", gpa: 1 }],
     workExperience: [
       { id: 1, role: "", company: "", from: "", to: "", points: [""] },
     ],
@@ -612,21 +612,37 @@ function WorkCvForm() {
           <div>
             <h2>EDUCATION</h2>
             <hr />
-            {cvData.education.map((item) => (
-              <div key={item.id}>
-                <p>
-                  <strong>{item.degree}</strong>
-                  {item.institution && ` — ${item.institution}`}
-                  {(item.from || item.to) && (
-                    <span>
-                      {" "}
-                      ({formatMonthYear(item.from)} → {formatMonthYear(item.to)})
-                    </span>
+            {cvData.education.map((item) => {
+              const hasGpa = typeof item.gpa === "number";
+              return (
+                <div key={item.id}>
+                  <p>
+                    <strong>{item.degree}</strong>
+                    {item.institution && `— ${item.institution}`}
+                    {(item.from || item.to ) && (
+                      <span>
+                        {" "}
+                        ({formatMonthYear(item.from)} → {" "}
+                        {formatMonthYear(item.to)})
+                      </span>
+                    )}
+                  </p>
+                  {(item.grade || hasGpa) && (
+                    <p className="edu-grade">
+                      {item.grade && <span>Grade: {item.grade}</span>}
+                      {item.grade && hasGpa && (
+                        <span> &nbsp;·&nbsp;</span>
+                      )}
+                      {hasGpa && (
+                        <span>GPA: {item.gpa.toFixed(1)} / 5.0</span>
+                      )}
+                    </p>
                   )}
-                </p>
-                {item.grade && <p className="edu-grade">Grade: {item.grade}</p>}
-              </div>
-            ))}
+                </div>
+              )
+            }
+              
+            )}
           </div>
         )}
 
