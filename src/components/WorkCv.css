@@ -1,4 +1,4 @@
- body {
+body {
     margin: 0;
     font-family: var(--font-body);
     background-color: var(--color-bg);
@@ -7,6 +7,8 @@
 h1, h2, h3, h4 {
     margin: 0;
 }
+
+/* ─── Form Wrapper ─────────────────────────────────────────────────────────── */
 .cv-form-wrapper {
     max-width: 900px;
     margin: 2rem auto;
@@ -20,24 +22,27 @@ h1, h2, h3, h4 {
     transform: translateY(-3px);
     box-shadow: var(--shadow-lg), 0 8px 20px rgba(0, 0, 0, 0.1);
 }
- /* Form Section */
- .cv-form {
+
+/* ─── Form Section ─────────────────────────────────────────────────────────── */
+.cv-form {
     margin-bottom: 2rem;
     transition: transform 0.2s ease;
- }
- .cv-form:hover {
+}
+.cv-form:hover {
     transform: translateY(-2px);
- }
- .cv-form h2 {
+}
+.cv-form h2 {
     font-family: var(--font-display);
     font-size: 1.5rem;
     color: var(--color-primary);
     margin-bottom: 1rem;
     border-bottom: 2px solid var(--color-border);
     padding-bottom: 0.5rem;
- }
- /* Input Styles */
- .cv-form input, .cv-form textarea {
+}
+
+/* ─── Input Styles ─────────────────────────────────────────────────────────── */
+.cv-form input,
+.cv-form textarea {
     width: 100%;
     padding: 0.75rem;
     margin-top: 0.25rem;
@@ -48,43 +53,32 @@ h1, h2, h3, h4 {
     font-family: var(--font-body);
     font-size: 1rem;
     transition: all 0.3s ease;
- }
- .cv-form input:focus, .cv-form textarea:focus {
+}
+.cv-form input:focus,
+.cv-form textarea:focus {
     outline: none;
     border-color: var(--color-accent);
     box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.2);
     transform: scale(1.02);
- }
- /* .cv-form label {
-   border: 2px solid red;
- } */
- textarea {
-    resize: vertical;
-    min-height: 80px;
- }
- .cv-form input:invalid {
+}
+.cv-form input:invalid {
     border-color: var(--color-accent);
     animation: shake 0.2s;
- }
- @keyframes shake {
-    0% {
-        transform: translateX(0);
-    }
-    25% {
-        transform: translateX(-2px);
-    }
-    50% {
-        transform: translateX(2px);
-    }
-    75% {
-        transform: translateX(-2px);
-    }
-    100% {
-        transform: translateX(0);
-    }
- }
- /* Button */
- .cv-form button {
+}
+textarea {
+    resize: vertical;
+    min-height: 80px;
+}
+@keyframes shake {
+    0%   { transform: translateX(0); }
+    25%  { transform: translateX(-2px); }
+    50%  { transform: translateX(2px); }
+    75%  { transform: translateX(-2px); }
+    100% { transform: translateX(0); }
+}
+
+/* ─── Buttons ──────────────────────────────────────────────────────────────── */
+.cv-form button {
     background-color: var(--color-accent);
     color: #fff;
     font-weight: bold;
@@ -94,18 +88,31 @@ h1, h2, h3, h4 {
     border-radius: 8px;
     cursor: pointer;
     transition: transform 0.2s ease, box-shadow 0.2s ease;
- }
- .cv-form button:hover {
+}
+.cv-form button:hover {
     transform: translateY(-2px) scale(1.02);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
- }
- .cv-form .form-button {
+}
+.cv-form .form-button {
     display: flex;
     justify-content: flex-end;
     gap: 1rem;
- }
- /* Cv preview styling */
- .cv-preview {
+}
+.btn-edit,
+.btn-download {
+    background: var(--color-accent);
+    color: #fff;
+    font-weight: bold;
+    padding: 0.75rem 1.5rem;
+    margin-top: 0.5rem;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* ─── CV Preview ───────────────────────────────────────────────────────────── */
+.cv-preview {
     max-width: 900px;
     margin: 2rem auto;
     padding: 1.5rem;
@@ -115,177 +122,140 @@ h1, h2, h3, h4 {
     display: flex;
     flex-direction: column;
     gap: 1rem;
- }
- .cv-preview h1 {
+}
+.cv-preview h1 {
     font-family: var(--font-display);
     font-size: 2rem;
     text-align: center;
- }
- .cv-preview h2 {
+}
+.cv-preview h2 {
     font-family: var(--font-display);
     font-size: 1.25rem;
     color: var(--color-primary);
- }
- .cv-preview p {
+}
+.cv-preview p {
     margin: 0.25rem 0;
     font-size: 1rem;
     color: var(--color-primary);
- }
- .details {
+}
+.cv-preview hr {
+    border: none;
+    height: 2px;
+    background-color: black;
+}
+.cv-preview div {
+    border-radius: 8px;
+    opacity: 1;
+    transform: translateY(0);
+    transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+/* ─── Preview Contact / Details ────────────────────────────────────────────── */
+.details,
+.cv-contact {
     margin: 0.25rem 0;
     font-size: 1rem;
     text-align: center;
- }
- .cv-contact {
-   margin: 0.25rem 0;
-   font-size: 1rem;
-   text-align: center;
- }
- .work-points-list, .cv-points {
-  padding-left: 1.2rem;
-  margin-top: 0.5rem;
-  
-}
-.optional-preview-entry {
-  margin-bottom: 10px;
 }
 
-.optional-preview-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: baseline;
+/* ─── Preview Action Bar ───────────────────────────────────────────────────── */
+.preview-action,
+.preview-toolbar {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+    margin-top: 2rem;
 }
 
-.optional-preview-title {
-  font-size: 1rem;
-}
-
-.optional-preview-date {
-  font-size: 0.9rem;
-  white-space: nowrap;
-  margin-left: 16px;
-}
-
-.optional-preview-desc {
-  margin: 4px 0 0 0;
-  font-size: 0.9rem;
-}
-
-.work-points-list ul {
-  margin-bottom: 0.3rem;
-  color: var(--color-primary);
-}
- .cv-preview hr {
-   border: none;
-   height: 2px;
-   background-color: black;
- }
- .skills-list {
-  padding-left: 1.2rem;
-  margin-top: 0.5rem;
-  color: var(--color-primary);
-}
-
-.skills-list li  {
-  margin-bottom: 0.3rem;
-}
-.cv-skills-list {
-   padding-left: 1.2rem;
-   margin-bottom: 0.3rem;
-}
- .cv-preview div {
-   border-radius: 8px;
-   opacity: 1;
-   transform: translateY(0);
-   transition: transform 0.3s ease, opacity 0.3s ease;
- }
- .preview-actions, .preview-toolbar {
-   display: flex;
-   justify-content: flex-end;
-   gap: 1rem;
-   margin-top: 2rem;
- }
- .btn-edit, .btn-download {
-   background: var(--color-accent);
-   color: #fff;
-   font-weight: bold;
-   padding: 0.75rem 1.5rem;
-   margin-top: 0.5rem;
-   border: none;
-   border-radius: 8px;
-   cursor: pointer;
-   transition: transform 0.2s ease, box-shadow 0.2s ease;
- }
- .optional-preview-entry {
-  margin-bottom: 10px;
-}
-
-.optional-preview-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: baseline;
-}
-
-.optional-preview-title {
-  font-size: 1rem;
-}
-
-.optional-preview-date {
-  font-size: 0.9rem;
-  white-space: nowrap;
-  margin-left: 16px;
-}
-
-.optional-preview-desc {
-  margin: 4px 0 0 0;
-  font-size: 0.9rem;
-}
- /* Responsive Design */
- @media (max-width: 768px) {
-   .cv-form-wrapper, .cv-preview {
-      padding: 1rem;
-      margin: 1rem;
-   }
-   .cv-form h2 {
-      font-size: 1.25rem;
-   }
-   .cv-preview h1 {
-      font-size: 1.5rem;
-   }
-   .cv-form button {
-      width: 100%;
-   }
- }
- @media (max-width: 480px) {
-   .cv-form input, .cv-form textarea {
-      padding: 0.5rem;
-   }
-   .cv-form h2 {
-      font-size: 1.1rem;
-   }
-   .cv-preview h1 {
-      font-size: 1.25rem;
-   }
- }
- @media print {
-  .preview-toolbar { display: none; }
-}
+/* ─── Work Experience Preview ──────────────────────────────────────────────── */
 .work-preview-entry {
-  margin-bottom: 10px;
+    margin-bottom: 10px;
 }
-
 .work-preview-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: baseline;
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
 }
-
 .work-preview-title {
-  font-size: 1rem;
+    font-size: 1rem;
+}
+.work-preview-date {
+    font-size: 0.9rem;
+    white-space: nowrap;
+    margin-left: 16px;
 }
 
-.work-preview-date {
-  font-size: 0.9rem;
-  white-space: nowrap;
-  margin-left: 16px;
+/* ─── Optional Sections Preview ────────────────────────────────────────────── */
+.optional-preview-entry {
+    margin-bottom: 10px;
+}
+.optional-preview-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+}
+.optional-preview-title {
+    font-size: 1rem;
+}
+.optional-preview-date {
+    font-size: 0.9rem;
+    white-space: nowrap;
+    margin-left: 16px;
+}
+.optional-preview-desc {
+    margin: 4px 0 0 0;
+    font-size: 0.9rem;
+}
+
+/* ─── Lists ────────────────────────────────────────────────────────────────── */
+.cv-points {
+    padding-left: 1.2rem;
+    margin-top: 0.5rem;
+}
+.work-points-list {
+    color: var(--color-primary);
+    padding-left: 1.2rem;
+}
+.skills-list {
+    padding-left: 1.2rem;
+    margin-top: 0.5rem;
+    color: var(--color-primary);
+}
+.cv-skills-list, .option-preview-list {
+    padding-left: 1.2rem;
+    margin-bottom: 0.3rem;
+    color: var(--color-primary);
+}
+
+/* ─── Responsive ───────────────────────────────────────────────────────────── */
+@media (max-width: 768px) {
+    .cv-form-wrapper,
+    .cv-preview {
+        padding: 1rem;
+        margin: 1rem;
+    }
+    .cv-form h2 {
+        font-size: 1.25rem;
+    }
+    .cv-preview h1 {
+        font-size: 1.5rem;
+    }
+    .cv-form button {
+        width: 100%;
+    }
+}
+@media (max-width: 480px) {
+    .cv-form input,
+    .cv-form textarea {
+        padding: 0.5rem;
+    }
+    .cv-form h2 {
+        font-size: 1.1rem;
+    }
+    .cv-preview h1 {
+        font-size: 1.25rem;
+    }
+}
+@media print {
+    .preview-toolbar { display: none; }
 }
