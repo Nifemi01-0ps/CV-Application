@@ -185,7 +185,7 @@ textarea {
     margin-left: 16px;
 }
 
-/* ─── Optional Sections Preview ────────────────────────────────────────────── */
+/*  Optional Sections Preview  */
 .optional-preview-entry {
     margin-bottom: 10px;
 }
@@ -207,7 +207,7 @@ textarea {
     font-size: 0.9rem;
 }
 
-/* ─── Lists ────────────────────────────────────────────────────────────────── */
+/* lists  */
 .cv-points {
     padding-left: 1.2rem;
     margin-top: 0.5rem;
@@ -221,14 +221,13 @@ textarea {
     margin-top: 0.5rem;
     color: var(--color-primary);
 }
-.cv-skills-list, .option-preview-list {
+.cv-skills-list, .option-preview-list, .cv-points {
     padding-left: 2rem;
-    margin-bottom: 0.3rem;
     color: var(--color-primary);
     margin-top: 0.2rem;
 }
 
-/* ─── Responsive ───────────────────────────────────────────────────────────── */
+/*  Responsive  */
 @media (max-width: 768px) {
     .cv-form-wrapper,
     .cv-preview {
@@ -258,5 +257,5 @@ textarea {
     }
 }
 @media print {
-    .preview-toolbar { display: none; }
+    .preview-toolbar, .preview-action { display: none; }
 }

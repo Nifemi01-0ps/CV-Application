@@ -1,9 +1,22 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useReactToPrint } from "react-to-print";
 import "./WorkCv.css";
+import clickSound from "../assets/click.mp3";
+import successSound from "../assets/success.mp3";
 
 function WorkCvForm() {
   const [isEditing, setIsEditing] = useState(true);
+  const clickRef = useRef(null);
+  const successRef = useRef(null);
+  useEffect(() => {
+    clickRef.current = new Audio(clickSound);
+    clickRef.current.volume = 0.3;
+    clickRef.current.load();
+
+    successRef.current = new Audio(successSound);
+    successRef.current.volume = 0.4;
+    successRef.current.load();
+  }, []);
   const cvRef = useRef();
   const [step, setStep] = useState(1);
   const totalStep = 8;
@@ -144,6 +157,19 @@ function WorkCvForm() {
     });
   };
 
+  //  Audio Function
+  const playClick = () => {
+    if (clickRef.current) {
+       clickRef.current.currentTime = 0;
+       clickRef.current.play().catch(() => {});
+    }
+  };
+  const playSuccess = () => {
+    if (successRef.current) {
+      successRef.current.currentTime = 0;
+      successRef.current.play().catch(() => {});
+    }
+  };
   const hasContent = (section, fields) =>
     section.some((item) =>
       fields.some((field) => {
@@ -461,7 +487,7 @@ function WorkCvForm() {
                           id={`work-point-${i}-${pi}`}
                           name={`workExperience_${i}_point_${pi}`}
                           type="text"
-                          placeholder={`Point ${pi + 1}: e.g. Led a team of 5 engineers...`}
+                          placeholder={`Point ${pi + 1}: e.g. Led a team of  2 Engineers`}
                           value={point}
                           onChange={(e) => updateWorkPoint(i, pi, e.target.value)}
                         />
@@ -517,7 +543,7 @@ function WorkCvForm() {
                     <input
                       id={`skills-name-${i}`}
                       name={`skills_${i}_name`}
-                      placeholder="e.g. Programming Languages"
+                      placeholder="e.g. Microsoft"
                       value={skill.name}
                       onChange={(e) =>
                         updateSection("skills", i, "name", e.target.value)
@@ -532,7 +558,7 @@ function WorkCvForm() {
                           id={`skill-point-${i}-${pi}`}
                           name={`skills_${i}_point_${pi}`}
                           type="text"
-                          placeholder="e.g. Python, JavaScript, C++"
+                          placeholder="e.g. Word, Excel, PowerPoint"
                           value={point}
                           onChange={(e) => updateSkillPoint(i, pi, e.target.value)}
                         />
@@ -708,17 +734,23 @@ function WorkCvForm() {
 
           <div className="form-actions">
             {step > 1 && (
-              <button type="button" className="btn-back" onClick={() => setStep(step - 1)}>← Back</button>
+              <button type="button" className="btn-back" onClick={() => setStep(step -1)}>← Back</button>
             )}
             {step < totalStep && (
-              <button type="button" className="btn-next" onClick={() => setStep(step + 1)}>Next →</button>
+              <button type="button" className="btn-next" onClick={() => {
+                playClick();
+                setStep(step + 1)
+              }}>Next →</button>
             )}
             {step === totalStep && (
               <button type="button" className="btn-preview" onClick={() => setIsEditing(false)}>Save & Preview →</button>
             )}
           </div>
           <div className="form-button">
-            <button type="button" onClick={() => setIsEditing(false)}>
+            <button type="button" onClick={() => {
+              playSuccess();
+              setIsEditing(false);
+            }}>
               Save & Preview
             </button>
           </div>
@@ -890,7 +922,10 @@ function WorkCvForm() {
         <button className="btn-edit" onClick={() => setIsEditing(true)}>
           Edit
         </button>
-        <button className="btn-download" onClick={handlePrint}>
+        <button className="btn-download" onClick={() => {
+          playSuccess();
+          handlePrint();
+        }}>
           Download PDF
         </button>
       </div>

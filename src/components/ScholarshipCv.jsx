@@ -1,9 +1,22 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useReactToPrint } from "react-to-print";
 import "./WorkCv.css";
+import clickSound from "../assets/click.mp3";
+import successSound from "../assets/success.mp3";
 
 function ScholarshipCvForm() {
   const [isEditing, setIsEditing] = useState(true);
+    const clickRef = useRef(null);
+     const successRef = useRef(null);
+     useEffect(() => {
+       clickRef.current = new Audio(clickSound);
+       clickRef.current.volume = 0.3;
+       clickRef.current.load();
+   
+       successRef.current = new Audio(successSound);
+       successRef.current.volume = 0.4;
+       successRef.current.load();
+     }, []);
   const cvRef = useRef();
   const [skillInput, setSkillInput] = useState("");
   const [step, setStep] = useState(1);
@@ -109,7 +122,19 @@ function ScholarshipCvForm() {
       skills: prev.skills.filter((s) => s.id !== id),
     }));
   };
-
+  // Sound helper function
+   const playClick = () => {
+    if (clickRef.current) {
+       clickRef.current.currentTime = 0;
+       clickRef.current.play().catch(() => {});
+    }
+  };
+  const playSuccess = () => {
+    if (successRef.current) {
+      successRef.current.currentTime = 0;
+      successRef.current.play().catch(() => {});
+    }
+  };
   const hasContent = (section, fields) =>
     section.some((item) =>
       fields.some((field) => {
@@ -870,7 +895,10 @@ function ScholarshipCvForm() {
               <button type="button" className="btn-back" onClick={() => setStep(step - 1)}>← Back</button>
             )}
             {step < totalStep && (
-              <button type="button" className="btn-next" onClick={() => setStep(step + 1)}>Next →</button>
+              <button type="button" className="btn-next" onClick={() => {
+                playClick();
+                setStep(step + 1);
+              }}>Next →</button>
             )}
             {step === totalStep && (
               <button type="button" className="btn-preview" onClick={() => setIsEditing(false)}>Save & Preview →</button>
@@ -1110,7 +1138,10 @@ function ScholarshipCvForm() {
         )}
         <div className="preview-actions">
           <button type="button" className="btn-edit" onClick={() => setIsEditing(true)}>← Edit</button>
-          <button type="button" className="btn-download" onClick={handlePrint}>Download PDF</button>
+          <button type="button" className="btn-download" onClick={() => {
+            playSuccess();
+            handlePrint();
+          }}>Download PDF</button>
         </div>
       </div>
     </div>
