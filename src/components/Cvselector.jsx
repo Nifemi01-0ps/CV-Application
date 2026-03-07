@@ -31,7 +31,7 @@ function CvSelector() {
         <footer>
             <div className="contact-detail">
               <h5>Contact me</h5>
-              <p>Pls get in touch if you think our work could be mutually beneficial</p> 
+              <p>Have a project in mind? Contact me through the handles below to get started on building a solution that meets your goals</p> 
               <div className="contact-details">
                 <a href="mailto: raphaeledafesnr@gmail.com">
                   <img srcSet={emailIcon} alt="email-icon" srcset="" />
