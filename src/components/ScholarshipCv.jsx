@@ -10,7 +10,7 @@ function ScholarshipCvForm() {
      const successRef = useRef(null);
      useEffect(() => {
        clickRef.current = new Audio(clickSound);
-       clickRef.current.volume = 0.1;
+       clickRef.current.volume = 0.07;
        clickRef.current.load();
    
        successRef.current = new Audio(successSound);
