@@ -78,6 +78,64 @@
     background-color: #dc2626;
     transform: scale(1.05);
 }
+footer {
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--color-border);
+}
+.contact-detail {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    text-align: center;
+}
+.contact-detail h5 {
+    font-family: var(--font-display);
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--color-primary);
+}
+.contact-detail p {
+   font-family: var(--font-display);
+   font-size: 0.875rem;
+   color: var(--color-primary);
+}
+.contact-details {
+    display: flex;
+    gap: 1rem;
+}
+.contact-details a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.25rem;
+    height: 2.25rem;
+    border-radius: 8px;
+    background-color: var(--color-input-bg);
+    border: 1px solid var(--color-border);
+    color: var(--color-secondary);
+    font-size: 1.2rem;
+    text-decoration: none;
+    box-shadow: var(--shadow-md);
+    transition:  background-color 0.2s ease, color 0.2s ease,box-shadow 0.2s ease, transform 0.15s ease;
+}
+.contact-details a:hover {
+    background-color: var(--color-accent);
+    color: #ffffff;
+    border-color: var(--color-accent);
+    box-shadow: var(--shadow-md);
+    transform: translateY(-2px);
+}
+.contact-details a img {
+    width: 1.2rem;
+    height: 1.2rem;
+    filter: invert(30%);
+    transition: filter 0.2s ease;
+}
+.contact-details a:hover img {
+    filter: brightness(0) invert(1);
+}
 /* Animation */
 @keyframes fadeIn {
     from {
