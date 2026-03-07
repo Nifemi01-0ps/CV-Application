@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import "./CVselector.css";
+import emailIcon from "../assets/email-box.svg";
 
 function CvSelector() {
   return (
@@ -19,7 +20,7 @@ function CvSelector() {
           </div>
 
           <div className="card">
-            <h2>💼 Work CV</h2>
+            <h2>💼 Resume</h2>
             <p>
               Designed for job applications and professional roles. 
               Focused on technical skills and project experience.
@@ -27,6 +28,26 @@ function CvSelector() {
             <Link to="work" className="btn">View Work CV</Link>
           </div>
         </div>
+        <footer>
+            <div className="contact-detail">
+              <h5>Contact me</h5>
+              <p>Pls get in touch if you think our work could be mutually beneficial</p> 
+              <div className="contact-details">
+                <a href="mailto: raphaeledafesnr@gmail.com">
+                  <img srcSet={emailIcon} alt="email-icon" srcset="" />
+                </a>
+                <a href="https://github.com/Nifemi01-0ps" target="_blank">
+                   <i class="devicon-github-original"></i>
+               </a>
+               <a href="https://www.linkedin.com/in/raphael-edafe-87593a265/" target="_blank">
+                   <i class="devicon-linkedin-plain"></i>
+               </a>
+                <a href="https://x.com/AFCEdafe" target="_blank">
+                   <i class="devicon-twitter-original"></i>
+               </a>
+              </div>
+            </div>
+        </footer>
       </div>
     </div>
   );
