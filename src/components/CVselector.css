@@ -94,12 +94,12 @@ footer {
     font-family: var(--font-display);
     font-size: 1.1rem;
     font-weight: 600;
-    color: var(--color-primary);
+    color: var(--color-secondary);
 }
 .contact-detail p {
    font-family: var(--font-display);
    font-size: 0.875rem;
-   color: var(--color-primary);
+   color: var(--color-secondary);
 }
 .contact-icon {
     display: flex;
