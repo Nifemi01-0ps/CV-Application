@@ -804,27 +804,37 @@ function WorkCvForm() {
 
         {/* Work Experience preview */}
         {hasContent(cvData.workExperience, ["role", "company", "from", "to", "points"]) && (
-          <div>
-            <h2>WORK EXPERIENCE</h2>
-            <hr />
-            {cvData.workExperience.map((item) => (
-              <div key={item.id} className="work-preview-entry">
-                <div className="work-preview-header">
-                  <span className="work-preview-title">
-                    <strong>{item.role}</strong>
-                    {item.company && ` ${item.company}`}
+        <div>
+          <h2>WORK EXPERIENCE</h2>
+          <hr />
+          {cvData.workExperience.map((item) => (
+            <div key={item.id} className="work-preview-entry">
+              <div className="work-preview-header">
+                <span className="work-preview-title">
+                  <strong>{item.role}</strong>
+                  {item.company && ` ${item.company}`}
+                </span>
+                {(item.from || item.to) && (
+                  <span className="work-preview-date">
+                    {formatMonthYear(item.from)}
+                    {item.from && item.to ? "  " : ""}- {formatMonthYear(item.to)}
                   </span>
-                  {(item.from || item.to) && (
-                    <span className="work-preview-date">
-                      {formatMonthYear(item.from)}
-                      {item.from && item.to ? "  " : ""}- {formatMonthYear(item.to)}
-                    </span>
-                  )}
-                </div>
+                )}
               </div>
-            ))}
-          </div>
-        )}
+              {item.points.some((p) => p.trim() !== "") && (
+                <ul className="work-points-list">
+                  {item.points
+                    .filter((p) => p.trim() !== "")
+                    .map((p, pi) => (
+                      <li key={pi}>{p}</li>
+                    ))}
+                </ul>
+              )}
+
+            </div>
+          ))}
+        </div>
+      )}
 
         {/* Skills preview */}
         {hasContent(cvData.skills, ["name", "points"]) && (
